@@ -131,6 +131,8 @@
   <ItemGroup>
     <Compile Include="Crestron\ControlSystem.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Room\Room.cs" />
+    <Compile Include="Room\RoomManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MILAV API\MILAV API.csproj">
