@@ -7,6 +7,8 @@ namespace MILAV.Crestron
 {
     public class ControlSystem : CrestronControlSystem
     {
+        public ControlSystem Instance { get; private set; }
+
         /// <summary>
         /// ControlSystem Constructor. Starting point for the SIMPL#Pro program.
         /// Use the constructor to:
@@ -23,6 +25,8 @@ namespace MILAV.Crestron
         public ControlSystem()
             : base()
         {
+            Instance = this;
+
             try
             {
                 Thread.MaxNumberOfUserThreads = 20;
