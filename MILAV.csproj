@@ -130,8 +130,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Crestron\ControlSystem.cs" />
-    <Compile Include="Device\DeviceRegistry.cs" />
-    <Compile Include="Device\IDeviceConverter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
