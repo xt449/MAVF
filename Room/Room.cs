@@ -5,8 +5,8 @@ namespace MILAV.Room
 {
     public class Room
     {
-        private readonly string id;
-        private readonly string name;
+        public readonly string id;
+        public readonly string name;
 
         // Only CONTROL type devices
         private readonly Dictionary<string, IDevice> devices = new Dictionary<string, IDevice>();
