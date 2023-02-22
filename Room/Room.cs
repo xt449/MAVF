@@ -16,7 +16,7 @@ namespace MILAV.Room
             this.id = id;
             this.name = name;
 
-            foreach(var device in devices)
+            foreach (var device in devices)
             {
                 this.devices[device.Id] = device;
             };
@@ -25,6 +25,11 @@ namespace MILAV.Room
         public bool TryGetDevice(string id, out IDevice device)
         {
             return devices.TryGetValue(id, out device);
+        }
+
+        public IDevice GetDevice(string id)
+        {
+            return devices[id];
         }
     }
 }
