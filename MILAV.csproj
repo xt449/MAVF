@@ -137,6 +137,10 @@
       <Project>{79233aaf-4f25-47c3-8184-ad08bca69a84}</Project>
       <Name>MILAV API</Name>
     </ProjectReference>
+    <ProjectReference Include="..\MILAV Util\MILAV Util.csproj">
+      <Project>{7fca83ed-b6e8-47b5-a337-44f68940b939}</Project>
+      <Name>MILAV Util</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
