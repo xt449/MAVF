@@ -15,4 +15,10 @@
     <ProjectReference Include="..\MILAV API\MILAV API.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Device\VideoController\" />
+    <Folder Include="Device\TVTuner\" />
+    <Folder Include="Device\VideoController\VideoWall\" />
+  </ItemGroup>
+
 </Project>
