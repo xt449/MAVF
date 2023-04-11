@@ -11,6 +11,8 @@ namespace MILAV
 
         private readonly JsonConfiguration configuration;
 
+        public string controlState;
+
         public Controller()
         {
             if (File.Exists("./config.json"))
@@ -37,6 +39,32 @@ namespace MILAV
                 using var writer = new StreamWriter("./config.json", false);
                 new JsonSerializer().Serialize(writer, configuration);
             }
+
+            controlState = configuration.DefaultState;
+            UpdateDeviceControlStates();
+        }
+
+        public string GetDefaultControlState() => configuration.DefaultState;
+
+        public string GetControlState() => controlState;
+
+        public void SetControlState(string nextState)
+        {
+            if(controlState == nextState)
+            {
+                return;
+            }
+
+            controlState = configuration.DefaultState;
+            UpdateDeviceControlStates();
+        }
+
+        private void UpdateDeviceControlStates()
+        {
+            foreach (var device in configuration.Devices)
+            {
+                device.SetControlState(controlState);
+            }
         }
 
         public AbstractDevice[] GetDevices()
@@ -44,10 +72,9 @@ namespace MILAV
             return (AbstractDevice[])configuration.Devices.Clone();
         }
 
-        public bool TryGetDevice(string id, out AbstractDevice? o)
+        public AbstractDevice? GetDeviceById(string id)
         {
-            o = configuration.Devices.FirstOrDefault(d => d?.Id == id, null);
-            return o != null;
+            return configuration.Devices.FirstOrDefault(d => d?.Id == id, null);
         }
     }
 }
