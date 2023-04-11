@@ -50,7 +50,7 @@ namespace MILAV
 
         public void SetControlState(string nextState)
         {
-            if(controlState == nextState)
+            if (controlState == nextState)
             {
                 return;
             }

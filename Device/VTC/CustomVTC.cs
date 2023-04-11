@@ -26,9 +26,8 @@ namespace MILAV.Device.VTC
         [JsonProperty("requestSetPower")]
         public string SetPowerRequest { get; }
 
-        public override void Validate() {
-            base.Validate();
-
+        public override void Validate()
+        {
             if (GetChannelRequest == null) throw new JsonException("Device was deserialized with null 'requestGetChannel'");
             if (GetChannelResponse == null) throw new JsonException("Device was deserialized with null 'responseGetChannel'");
             if (SetChannelRequest == null) throw new JsonException("Device was deserialized with null 'requestSetChannel'");
