@@ -1,5 +1,6 @@
 ﻿using MILAV.API.Device;
 using MILAV.Config;
+using MILAV.Device.VTC;
 using Newtonsoft.Json;
 
 namespace MILAV
@@ -31,7 +32,7 @@ namespace MILAV
             {
                 Console.WriteLine("creating default config file");
 
-                configuration = JsonConfiguration.New();
+                configuration = JsonConfiguration.New(new CustomVTC());
 
                 using var writer = new StreamWriter("./config.json", false);
                 new JsonSerializer().Serialize(writer, configuration);
