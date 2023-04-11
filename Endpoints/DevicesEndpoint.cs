@@ -12,7 +12,7 @@ namespace MILAV.Endpoints
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(AbstractDevice[]))]
         public ActionResult GetAll()
         {
-            return Ok(new List<AbstractDevice>());
+            return Ok(controller.GetAllDevices());
         }
 
         [HttpGet("{id}", Name = "GetDeviceById")]
@@ -20,12 +20,12 @@ namespace MILAV.Endpoints
         [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(string))]
         public ActionResult GetDevice(string id)
         {
-            if (id == "test")
+            if(controller.TryGetDevice(id, out AbstractDevice? device))
             {
-                return Ok(controller.GetText());
+                return Ok(device);
             }
 
-            return BadRequest("Invalid");
+            return BadRequest("Invalid ID");
         }
     }
 }

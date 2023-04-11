@@ -39,6 +39,11 @@ namespace MILAV
             }
         }
 
+        public AbstractDevice[] GetAllDevices()
+        {
+            return (AbstractDevice[])configuration.Devices.Clone();
+        }
+
         public bool TryGetDevice(string id, out AbstractDevice? o)
         {
             o = configuration.Devices.FirstOrDefault(d => d?.Id == id, null);
