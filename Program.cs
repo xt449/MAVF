@@ -9,8 +9,10 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-// Init real backend
-builder.Services.AddScoped<Controller, Controller>();
+// Initialize real backend
+var controller = new Controller();
+// Link backend
+builder.Services.AddScoped(_ => controller);
 
 var app = builder.Build();
 

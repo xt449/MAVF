@@ -7,12 +7,22 @@ namespace MILAV.Config
     public class JsonConfiguration
     {
         [JsonProperty("debug")]
-        bool Debug { get; }
+        public bool Debug { get; private set; }
 
         [JsonProperty("defaultState")]
-        string DefaultState { get; }
+        public string DefaultState { get; private set; }
 
         [JsonProperty("devices")]
-        AbstractDevice[] Devices { get; }
+        public AbstractDevice[] Devices { get; private set; }
+
+        public static JsonConfiguration New()
+        {
+            return new JsonConfiguration()
+            {
+                Debug = false,
+                DefaultState = "",
+                Devices = new AbstractDevice[0],
+            };
+        }
     }
 }
