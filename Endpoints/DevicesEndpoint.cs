@@ -1,6 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
 using MILAV.API.Device;
-using MILAV.API.Device.Implementations;
 
 namespace MILAV.Endpoints
 {
@@ -10,22 +9,20 @@ namespace MILAV.Endpoints
         public DevicesEndpoint(Controller controller) : base(controller) { }
 
         [HttpGet(Name = "GetDevices")]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IDevice[]))]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(AbstractDevice[]))]
         public ActionResult GetAll()
         {
-            return Ok(new List<IDevice>());
+            return Ok(new List<AbstractDevice>());
         }
 
-        private readonly TestDevice testDevice = new TestDevice();
-
         [HttpGet("{id}", Name = "GetDeviceById")]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IDevice))]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(AbstractDevice))]
         [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(string))]
         public ActionResult GetDevice(string id)
         {
-            if(id == "test")
+            if (id == "test")
             {
-                return Ok(testDevice);
+                return Ok(controller.GetText());
             }
 
             return BadRequest("Invalid");
