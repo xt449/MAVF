@@ -12,6 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Device\TouchPanel\" />
     <Folder Include="Device\VideoController\" />
     <Folder Include="Device\TVTuner\" />
     <Folder Include="Device\VideoController\VideoWall\" />
