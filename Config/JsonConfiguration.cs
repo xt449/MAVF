@@ -15,13 +15,13 @@ namespace MILAV.Config
         [JsonProperty("devices")]
         public AbstractDevice[] Devices { get; private set; }
 
-        public static JsonConfiguration New()
+        public static JsonConfiguration New(params AbstractDevice[] devices)
         {
             return new JsonConfiguration()
             {
                 Debug = false,
                 DefaultState = "",
-                Devices = new AbstractDevice[0],
+                Devices = devices,
             };
         }
     }
