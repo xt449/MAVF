@@ -36,22 +36,22 @@ namespace MILAV
         // Should this be hidden?
         public string? GetDeviceIpById(string id)
         {
-            return controller.GetDeviceById(id)?.Ip;
+            return controller.GetDeviceById(id)?.ip;
         }
 
         public int? GetDevicePortById(string id)
         {
-            return controller.GetDeviceById(id)?.Port;
+            return controller.GetDeviceById(id)?.port;
         }
 
         public Protocol? GetDeviceProtocolById(string id)
         {
-            return controller.GetDeviceById(id)?.Protocol;
+            return controller.GetDeviceById(id)?.protocol;
         }
 
         public string? GetDeviceRoomById(string id)
         {
-            return controller.GetDeviceById(id)?.Room;
+            return controller.GetDeviceById(id)?.room;
         }
 
         public ControlState? GetDeviceStateById(string id)
@@ -66,7 +66,7 @@ namespace MILAV
 
         public string[]? GetDeviceStateRoomsById(string id, string state)
         {
-            return controller.GetDeviceById(id)?.States.FirstOrDefault(cs => cs.Id == state)?.Rooms;
+            return controller.GetDeviceById(id)?.States.FirstOrDefault(cs => cs.id == state)?.rooms;
         }
 
         // ControlState

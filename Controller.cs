@@ -74,7 +74,7 @@ namespace MILAV
 
         public AbstractDevice? GetDeviceById(string id)
         {
-            return configuration.Devices.FirstOrDefault(d => d?.Id == id, null);
+            return configuration.Devices.FirstOrDefault(d => d?.id == id, null);
         }
     }
 }

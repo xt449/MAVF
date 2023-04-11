@@ -8,41 +8,41 @@ namespace MILAV.Device.VTC
     [Device("customvtc")]
     public class CustomVTC : AbstractDevice, IChannelControl, IPowerControl
     {
-        [JsonProperty("requestGetChannel")]
-        public string GetChannelRequest { get; }
+        [JsonProperty]
+        public readonly string requestGetChannel;
 
-        [JsonProperty("responseGetChannel")]
-        public string GetChannelResponse { get; }
+        [JsonProperty]
+        public readonly string responseGetChannel;
 
-        [JsonProperty("requestSetChannel")]
-        public string SetChannelRequest { get; }
+        [JsonProperty]
+        public readonly string requestSetChannel;
 
-        [JsonProperty("requestGetPower")]
-        public string GetPowerRequest { get; }
+        [JsonProperty]
+        public readonly string requestGetPower;
 
-        [JsonProperty("responseGetPower")]
-        public string GetPowerResponse { get; }
+        [JsonProperty]
+        public readonly string responseGetPower;
 
-        [JsonProperty("requestSetPower")]
-        public string SetPowerRequest { get; }
+        [JsonProperty]
+        public readonly string requestSetPower;
 
         public override void Validate()
         {
-            if (GetChannelRequest == null) throw new JsonException("Device was deserialized with null 'requestGetChannel'");
-            if (GetChannelResponse == null) throw new JsonException("Device was deserialized with null 'responseGetChannel'");
-            if (SetChannelRequest == null) throw new JsonException("Device was deserialized with null 'requestSetChannel'");
-            if (GetPowerRequest == null) throw new JsonException("Device was deserialized with null 'requestGetPower'");
-            if (GetPowerResponse == null) throw new JsonException("Device was deserialized with null 'responseGetPower'");
-            if (SetPowerRequest == null) throw new JsonException("Device was deserialized with null 'requestSetPower'");
+            if (requestGetChannel == null) throw new JsonException("Device was deserialized with null 'requestGetChannel'");
+            if (responseGetChannel == null) throw new JsonException("Device was deserialized with null 'responseGetChannel'");
+            if (requestSetChannel == null) throw new JsonException("Device was deserialized with null 'requestSetChannel'");
+            if (requestGetPower == null) throw new JsonException("Device was deserialized with null 'requestGetPower'");
+            if (responseGetPower == null) throw new JsonException("Device was deserialized with null 'responseGetPower'");
+            if (requestSetPower == null) throw new JsonException("Device was deserialized with null 'requestSetPower'");
         }
 
         public string? GetChannel()
         {
             if (Connection.Connect())
             {
-                Connection.WriteASCII(GetChannelRequest);
+                Connection.WriteASCII(requestGetChannel);
 
-                var match = Regex.Match(Connection.ReadASCII(), GetChannelResponse);
+                var match = Regex.Match(Connection.ReadASCII(), responseGetChannel);
                 if (match.Success)
                 {
                     return match.Value;
@@ -59,7 +59,7 @@ namespace MILAV.Device.VTC
                 // RegEx formatting ($1)?
                 // C# formatting ({0})?
                 // or something else?
-                Connection.WriteASCII(SetChannelRequest.Replace("$1", channel));
+                Connection.WriteASCII(requestSetChannel.Replace("$1", channel));
             }
         }
 
@@ -67,9 +67,9 @@ namespace MILAV.Device.VTC
         {
             if (Connection.Connect())
             {
-                Connection.WriteASCII(GetPowerRequest);
+                Connection.WriteASCII(requestGetPower);
 
-                var match = Regex.Match(Connection.ReadASCII(), GetPowerResponse);
+                var match = Regex.Match(Connection.ReadASCII(), responseGetPower);
                 if (match.Success)
                 {
                     return bool.Parse(match.Value);
@@ -86,7 +86,7 @@ namespace MILAV.Device.VTC
                 // RegEx formatting ($1)?
                 // C# formatting ({0})?
                 // or something else?
-                Connection.WriteASCII(SetPowerRequest.Replace("$1", state ? "1" : "0"));
+                Connection.WriteASCII(requestSetPower.Replace("$1", state ? "1" : "0"));
             }
         }
     }

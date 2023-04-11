@@ -3,6 +3,7 @@ using Newtonsoft.Json;
 
 namespace MILAV.Config
 {
+    // Using properties instead of fields in this JsonObject for initializing with default values
     [JsonObject(MemberSerialization = MemberSerialization.OptIn)]
     public class JsonConfiguration
     {
