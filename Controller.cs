@@ -39,7 +39,7 @@ namespace MILAV
             }
         }
 
-        public AbstractDevice[] GetAllDevices()
+        public AbstractDevice[] GetDevices()
         {
             return (AbstractDevice[])configuration.Devices.Clone();
         }
