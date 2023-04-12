@@ -8,11 +8,28 @@ namespace MILAV
     {
         public string GetText() => "Hello world!";
 
-        private readonly Configuration configuration;
+        private Configuration configuration;
+
+        private Dictionary<string, Input> inputs;
+        private Dictionary<string, Output> outputs;
 
         public string controlState;
 
         public Controller()
+        {
+            LoadConfiguration();
+
+            // Validate again
+            if (configuration == null || inputs == null || outputs == null || controlState == null)
+            {
+                throw new Exception();
+            }
+
+            controlState = configuration.defaultState;
+            UpdateUserControlStates();
+        }
+
+        public void LoadConfiguration()
         {
             if (File.Exists("./config.json"))
             {
@@ -39,8 +56,36 @@ namespace MILAV
                 new JsonSerializer().Serialize(writer, configuration);
             }
 
-            controlState = configuration.defaultState;
-            UpdateUserControlStates();
+            inputs = new Dictionary<string, Input>();
+            outputs = new Dictionary<string, Output>();
+
+            // Validate inputs/outputs
+            foreach (var device in configuration.devices)
+            {
+                if (device.inputs != null)
+                {
+                    foreach (var input in device.inputs)
+                    {
+                        if (inputs.ContainsKey(input.id))
+                        {
+                            throw new IOException($"Duplicate device input id: '{input.id}'");
+                        }
+                        inputs[input.id] = input;
+                    }
+                }
+
+                if (device.outputs != null)
+                {
+                    foreach (var output in device.outputs)
+                    {
+                        if (outputs.ContainsKey(output.id))
+                        {
+                            throw new IOException($"Duplicate device output id: '{output.id}'");
+                        }
+                        outputs[output.id] = output;
+                    }
+                }
+            }
         }
 
         public string GetDefaultControlState() => configuration.defaultState;
