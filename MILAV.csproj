@@ -16,13 +16,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Device\VideoController\" />
-    <Folder Include="Device\TVTuner\" />
-    <Folder Include="Device\VideoController\VideoWall\" />
+    <None Include="example_config.json" />
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="example_config.json" />
+    <Folder Include="Device\" />
   </ItemGroup>
 
 </Project>
