@@ -5,7 +5,7 @@ using MILAV.API.Device;
 
 namespace MILAV
 {
-    public class SignalRHub : Hub, ServerAPI
+    public class SignalRHub : Hub, IServerAPI
     {
         protected readonly Controller controller;
 
@@ -29,12 +29,6 @@ namespace MILAV
         }
 
         // Should this be hidden?
-        public string? GetDeviceDriverById(string id)
-        {
-            return controller.GetDeviceById(id)?.Driver;
-        }
-
-        // Should this be hidden?
         public string? GetDeviceIpById(string id)
         {
             return controller.GetDeviceById(id)?.ip;
@@ -52,24 +46,14 @@ namespace MILAV
             return controller.GetDeviceById(id)?.protocol;
         }
 
-        public string? GetDeviceRoomById(string id)
+        public Input[]? GetDeviceInputsById(string id)
         {
-            return controller.GetDeviceById(id)?.room;
+            return controller.GetDeviceById(id)?.inputs;
         }
 
-        public ControlState? GetDeviceStateById(string id)
+        public Output[]? GetDeviceOutputsById(string id)
         {
-            return controller.GetDeviceById(id)?.State;
-        }
-
-        public ControlState[]? GetDeviceStatesById(string id)
-        {
-            return controller.GetDeviceById(id)?.States;
-        }
-
-        public string[]? GetDeviceStateRoomsById(string id, string state)
-        {
-            return controller.GetDeviceById(id)?.States.FirstOrDefault(cs => cs.id == state)?.rooms;
+            return controller.GetDeviceById(id)?.outputs;
         }
 
         // ControlState
