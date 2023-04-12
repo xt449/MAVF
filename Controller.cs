@@ -9,7 +9,7 @@ namespace MILAV
     {
         public string GetText() => "Hello world!";
 
-        private readonly JsonConfiguration configuration;
+        private readonly Configuration configuration;
 
         public string controlState;
 
@@ -20,7 +20,7 @@ namespace MILAV
                 Console.WriteLine("reading config file");
 
                 using var reader = new StreamReader("./config.json");
-                var configuration = (JsonConfiguration?)new JsonSerializer().Deserialize(reader, typeof(JsonConfiguration));
+                var configuration = (Configuration?)new JsonSerializer().Deserialize(reader, typeof(Configuration));
                 if (configuration != null)
                 {
                     this.configuration = configuration;
@@ -34,7 +34,7 @@ namespace MILAV
             {
                 Console.WriteLine("creating default config file");
 
-                configuration = JsonConfiguration.New(new CustomVTC());
+                configuration = new Configuration();
 
                 using var writer = new StreamWriter("./config.json", false);
                 new JsonSerializer().Serialize(writer, configuration);
