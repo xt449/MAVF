@@ -59,9 +59,9 @@ namespace MILAV
             // Validate inputs/outputs
             foreach (var device in configuration.devices)
             {
-                if (device.inputs != null)
+                if (device.Inputs != null)
                 {
-                    foreach (var input in device.inputs)
+                    foreach (var input in device.Inputs)
                     {
                         if (inputs.ContainsKey(input.id))
                         {
@@ -71,9 +71,9 @@ namespace MILAV
                     }
                 }
 
-                if (device.outputs != null)
+                if (device.Outputs != null)
                 {
-                    foreach (var output in device.outputs)
+                    foreach (var output in device.Outputs)
                     {
                         if (outputs.ContainsKey(output.id))
                         {

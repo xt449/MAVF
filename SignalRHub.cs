@@ -48,12 +48,12 @@ namespace MILAV
 
         public Input[]? GetDeviceInputsById(string id)
         {
-            return controller.GetDeviceById(id)?.inputs;
+            return controller.GetDeviceById(id)?.Inputs;
         }
 
         public Output[]? GetDeviceOutputsById(string id)
         {
-            return controller.GetDeviceById(id)?.outputs;
+            return controller.GetDeviceById(id)?.Outputs;
         }
 
         // ControlState
