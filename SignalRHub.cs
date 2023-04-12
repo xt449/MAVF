@@ -28,6 +28,7 @@ namespace MILAV
             return controller.GetDeviceById(id);
         }
 
+        // Should this be hidden?
         public string? GetDeviceDriverById(string id)
         {
             return controller.GetDeviceById(id)?.Driver;
@@ -39,11 +40,13 @@ namespace MILAV
             return controller.GetDeviceById(id)?.ip;
         }
 
+        // Should this be hidden?
         public int? GetDevicePortById(string id)
         {
             return controller.GetDeviceById(id)?.port;
         }
 
+        // Should this be hidden?
         public Protocol? GetDeviceProtocolById(string id)
         {
             return controller.GetDeviceById(id)?.protocol;
