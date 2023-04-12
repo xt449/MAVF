@@ -8,33 +8,23 @@ namespace MILAV.Device.VTC
     [Device("customvtc")]
     public class CustomVTC : AbstractDevice, IChannelControl, IPowerControl
     {
-        [JsonProperty]
+        [JsonProperty(Required = Required.DisallowNull)]
         public readonly string requestGetChannel;
 
-        [JsonProperty]
+        [JsonProperty(Required = Required.DisallowNull)]
         public readonly string responseGetChannel;
 
-        [JsonProperty]
+        [JsonProperty(Required = Required.DisallowNull)]
         public readonly string requestSetChannel;
 
-        [JsonProperty]
+        [JsonProperty(Required = Required.DisallowNull)]
         public readonly string requestGetPower;
 
-        [JsonProperty]
+        [JsonProperty(Required = Required.DisallowNull)]
         public readonly string responseGetPower;
 
-        [JsonProperty]
+        [JsonProperty(Required = Required.DisallowNull)]
         public readonly string requestSetPower;
-
-        public override void Validate()
-        {
-            if (requestGetChannel == null) throw new JsonException("Device was deserialized with null 'requestGetChannel'");
-            if (responseGetChannel == null) throw new JsonException("Device was deserialized with null 'responseGetChannel'");
-            if (requestSetChannel == null) throw new JsonException("Device was deserialized with null 'requestSetChannel'");
-            if (requestGetPower == null) throw new JsonException("Device was deserialized with null 'requestGetPower'");
-            if (responseGetPower == null) throw new JsonException("Device was deserialized with null 'responseGetPower'");
-            if (requestSetPower == null) throw new JsonException("Device was deserialized with null 'requestSetPower'");
-        }
 
         public string? GetChannel()
         {
