@@ -1,6 +1,5 @@
-﻿using MILAV.API.Device;
-using MILAV.Config;
-using MILAV.Device.VTC;
+﻿using MILAV.API;
+using MILAV.API.Device;
 using Newtonsoft.Json;
 
 namespace MILAV
@@ -40,11 +39,11 @@ namespace MILAV
                 new JsonSerializer().Serialize(writer, configuration);
             }
 
-            controlState = configuration.DefaultState;
-            UpdateDeviceControlStates();
+            controlState = configuration.defaultState;
+            UpdateUserControlStates();
         }
 
-        public string GetDefaultControlState() => configuration.DefaultState;
+        public string GetDefaultControlState() => configuration.defaultState;
 
         public string GetControlState() => controlState;
 
@@ -55,26 +54,26 @@ namespace MILAV
                 return;
             }
 
-            controlState = configuration.DefaultState;
-            UpdateDeviceControlStates();
+            controlState = configuration.defaultState;
+            UpdateUserControlStates();
         }
 
-        private void UpdateDeviceControlStates()
+        private void UpdateUserControlStates()
         {
-            foreach (var device in configuration.Devices)
+            foreach (var user in configuration.users)
             {
-                device.SetControlState(controlState);
+                user.SetControlState(controlState);
             }
         }
 
         public AbstractDevice[] GetDevices()
         {
-            return (AbstractDevice[])configuration.Devices.Clone();
+            return (AbstractDevice[])configuration.devices.Clone();
         }
 
         public AbstractDevice? GetDeviceById(string id)
         {
-            return configuration.Devices.FirstOrDefault(d => d?.id == id, null);
+            return configuration.devices.FirstOrDefault(d => d?.id == id, null);
         }
     }
 }
