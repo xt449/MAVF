@@ -6,24 +6,21 @@ namespace MILAV
 {
     public class Controller
     {
-        public string GetText() => "Hello world!";
-
         private Configuration configuration;
+        private string controlState;
 
         private Dictionary<string, Input> inputs;
         private Dictionary<string, Output> outputs;
-
-        public string controlState;
 
         public Controller()
         {
             LoadConfiguration();
 
             // Validate again
-            if (configuration == null || inputs == null || outputs == null || controlState == null)
-            {
-                throw new Exception();
-            }
+            if (configuration == null) throw new Exception("configuration is null");
+            if (configuration.defaultState == null) throw new Exception("controlState is null");
+            if (inputs == null) throw new Exception("inputs is null");
+            if (outputs == null) throw new Exception("outputs is null");
 
             controlState = configuration.defaultState;
             UpdateUserControlStates();
