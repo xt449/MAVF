@@ -1,1 +1,30 @@
-{"debug":false,"defaultState":"primary","devices":[{"requestGetChannel":"channel?","responseGetChannel":"^channel!(.+)$","requestSetChannel":"channel!$1","requestGetPower":"power?","responseGetPower":"^power!(.+)$","requestSetPower":"power!$1","driver":"customvtc","id":"customTest1","ip":"x.x.x.x","port":23,"protocol":"TELNET","outputs":[{"id":"primary-vtc-output","output":1,"group":"conference"}]}],"users":[{"ip":"x.x.x.x","states":[{"id":"primary","groups":["conference"]}]}]}
+{
+  "debug": false,
+  "defaultState": "primary",
+  "devices": [
+    {
+      "requestGetChannel": "channel?",
+      "responseGetChannel": "^channel!(.+)$",
+      "requestSetChannel": "channel!$1",
+      "requestGetPower": "power?",
+      "responseGetPower": "^power!(.+)$",
+      "requestSetPower": "power!$1",
+      "driver": "customtvtuner",
+      "id": "customTest1",
+      "ip": "x.x.x.x",
+      "port": 23,
+      "protocol": "TELNET"
+    }
+  ],
+  "users": [
+    {
+      "ip": "x.x.x.x",
+      "states": [
+        {
+          "id": "primary",
+          "groups": [ "conference" ]
+        }
+      ]
+    }
+  ]
+}
