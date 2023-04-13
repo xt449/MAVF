@@ -47,7 +47,7 @@ namespace MILAV
             {
                 Console.WriteLine("creating default config file");
 
-                configuration = new Configuration();
+                configuration = new Configuration(false, "", new AbstractDevice[0], new User[0]);
 
                 using var writer = new StreamWriter("./config.json", false);
                 new JsonSerializer().Serialize(writer, configuration);
@@ -57,30 +57,24 @@ namespace MILAV
             outputs = new Dictionary<string, Output>();
 
             // Validate inputs/outputs
-            foreach (var device in configuration.devices)
+            foreach (var device in configuration.devices.Values)
             {
-                if (device.Inputs != null)
+                foreach (var input in device.Inputs.Values)
                 {
-                    foreach (var input in device.Inputs)
+                    if (inputs.ContainsKey(input.id))
                     {
-                        if (inputs.ContainsKey(input.id))
-                        {
-                            throw new IOException($"Duplicate device input id: '{input.id}'");
-                        }
-                        inputs[input.id] = input;
+                        throw new IOException($"Duplicate device input id: '{input.id}' in device: '{device.id}'");
                     }
+                    inputs[input.id] = input;
                 }
 
-                if (device.Outputs != null)
+                foreach (var output in device.Outputs.Values)
                 {
-                    foreach (var output in device.Outputs)
+                    if (outputs.ContainsKey(output.id))
                     {
-                        if (outputs.ContainsKey(output.id))
-                        {
-                            throw new IOException($"Duplicate device output id: '{output.id}'");
-                        }
-                        outputs[output.id] = output;
+                        throw new IOException($"Duplicate device output id: '{output.id}' in device: '{device.id}'");
                     }
+                    outputs[output.id] = output;
                 }
             }
         }
@@ -102,20 +96,20 @@ namespace MILAV
 
         private void UpdateUserControlStates()
         {
-            foreach (var user in configuration.users)
+            foreach (var user in configuration.users.Values)
             {
                 user.SetControlState(controlState);
             }
         }
 
-        public AbstractDevice[] GetDevices()
+        public Dictionary<string, AbstractDevice> GetDevices()
         {
-            return (AbstractDevice[])configuration.devices.Clone();
+            return configuration.devices;
         }
 
         public AbstractDevice? GetDeviceById(string id)
         {
-            return configuration.devices.FirstOrDefault(d => d?.id == id, null);
+            return configuration.devices[id];
         }
     }
 }

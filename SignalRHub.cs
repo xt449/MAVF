@@ -16,9 +16,9 @@ namespace MILAV
 
         // Devices
 
-        public AbstractDevice[] GetDevices()
+        public IEnumerable<AbstractDevice> GetDevices()
         {
-            return controller.GetDevices();
+            return controller.GetDevices().Values;
         }
 
         // Device
@@ -46,14 +46,14 @@ namespace MILAV
             return controller.GetDeviceById(id)?.protocol;
         }
 
-        public Input[]? GetDeviceInputsById(string id)
+        public IEnumerable<Input>? GetDeviceInputsById(string id)
         {
-            return controller.GetDeviceById(id)?.Inputs;
+            return controller.GetDeviceById(id)?.Inputs.Values;
         }
 
-        public Output[]? GetDeviceOutputsById(string id)
+        public IEnumerable<Output>? GetDeviceOutputsById(string id)
         {
-            return controller.GetDeviceById(id)?.Outputs;
+            return controller.GetDeviceById(id)?.Outputs.Values;
         }
 
         // ControlState
