@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.SignalR;
 using MILAV.API;
 using MILAV.API.Device;
+using MILAV.API.Device.Routing;
 
 namespace MILAV
 {
@@ -28,9 +29,9 @@ namespace MILAV
             return controller.GetDeviceById(deviceId);
         }
 
-        public IEnumerable<Input>? GetDeviceInputsById(string deviceId)
+        public IEnumerable<IInputOutput>? GetDeviceInputsById(string deviceId)
         {
-            if(controller.GetDeviceById(deviceId) is IRouteControl routing)
+            if(controller.GetDeviceById(deviceId) is IRouteControl<IInputOutput, IInputOutput> routing)
             {
                 return routing.Inputs.Values;
             }
@@ -38,9 +39,9 @@ namespace MILAV
             return null;
         }
 
-        public IEnumerable<Output>? GetDeviceOutputsById(string deviceId)
+        public IEnumerable<IInputOutput>? GetDeviceOutputsById(string deviceId)
         {
-            if (controller.GetDeviceById(deviceId) is IRouteControl routing)
+            if (controller.GetDeviceById(deviceId) is IRouteControl<IInputOutput, IInputOutput> routing)
             {
                 return routing.Outputs.Values;
             }
@@ -70,13 +71,8 @@ namespace MILAV
 
         // Routing
 
-        public bool TryRoute(string deviceId, Input input, Output output)
+        public bool TryRoute(string deviceId, IInputOutput input, IInputOutput output)
         {
-            if (input.type != output.type)
-            {
-                return false;
-            }
-
             var clientIp = Context.Features.Get<IHttpConnectionFeature>().RemoteIpAddress.ToString();
             var user = controller.GetUserByIp(clientIp);
             if (user == null || !user.CanRouteInput(input) || !user.CanRouteOutput(output))
@@ -84,7 +80,7 @@ namespace MILAV
                 return false;
             }
 
-            if (controller.GetDeviceById(deviceId) is IRouteControl routing)
+            if (controller.GetDeviceById(deviceId) is IRouteControl<IInputOutput, IInputOutput> routing)
             {
                 return routing.Route(input, output);
             }
@@ -92,7 +88,7 @@ namespace MILAV
             return false;
         }
 
-        public Input? GetRoute(string deviceId, Output output)
+        public IInputOutput? GetRoute(string deviceId, IInputOutput output)
         {
             throw new NotImplementedException();
         }
