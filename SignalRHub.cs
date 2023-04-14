@@ -31,7 +31,7 @@ namespace MILAV
 
         public IEnumerable<IInputOutput>? GetDeviceInputsById(string deviceId)
         {
-            if(controller.GetDeviceById(deviceId) is IRouteControl<IInputOutput, IInputOutput> routing)
+            if (controller.GetDeviceById(deviceId) is IRouteControl<IInputOutput, IInputOutput> routing)
             {
                 return routing.Inputs.Values;
             }
