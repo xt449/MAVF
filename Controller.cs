@@ -1,16 +1,14 @@
 ﻿using MILAV.API;
-using MILAV.API.Device;
 using Newtonsoft.Json;
 
 namespace MILAV
 {
     public class Controller
     {
+        private readonly JsonSerializer json = new JsonSerializer();
+
         private Configuration configuration;
         private string controlState;
-
-        private Dictionary<string, Input> inputs;
-        private Dictionary<string, Output> outputs;
 
         public Controller()
         {
@@ -18,9 +16,6 @@ namespace MILAV
 
             // Validate again
             if (configuration == null) throw new Exception("configuration is null");
-            if (configuration.defaultState == null) throw new Exception("controlState is null");
-            if (inputs == null) throw new Exception("inputs is null");
-            if (outputs == null) throw new Exception("outputs is null");
 
             controlState = configuration.defaultState;
             UpdateUserControlStates();
@@ -33,7 +28,7 @@ namespace MILAV
                 Console.WriteLine("reading config file");
 
                 using var reader = new StreamReader("./config.json");
-                var configuration = (Configuration?)new JsonSerializer().Deserialize(reader, typeof(Configuration));
+                var configuration = (Configuration?)json.Deserialize(reader, typeof(Configuration));
                 if (configuration != null)
                 {
                     this.configuration = configuration;
@@ -47,35 +42,10 @@ namespace MILAV
             {
                 Console.WriteLine("creating default config file");
 
-                configuration = new Configuration(false, "", new AbstractDevice[0], new User[0]);
+                configuration = new Configuration(false, "");
 
                 using var writer = new StreamWriter("./config.json", false);
-                new JsonSerializer().Serialize(writer, configuration);
-            }
-
-            inputs = new Dictionary<string, Input>();
-            outputs = new Dictionary<string, Output>();
-
-            // Validate inputs/outputs
-            foreach (var device in configuration.devices.Values)
-            {
-                foreach (var input in device.Inputs.Values)
-                {
-                    if (inputs.ContainsKey(input.id))
-                    {
-                        throw new IOException($"Duplicate device input id: '{input.id}' in device: '{device.id}'");
-                    }
-                    inputs[input.id] = input;
-                }
-
-                foreach (var output in device.Outputs.Values)
-                {
-                    if (outputs.ContainsKey(output.id))
-                    {
-                        throw new IOException($"Duplicate device output id: '{output.id}' in device: '{device.id}'");
-                    }
-                    outputs[output.id] = output;
-                }
+                json.Serialize(writer, configuration);
             }
         }
 
@@ -102,12 +72,12 @@ namespace MILAV
             }
         }
 
-        public Dictionary<string, AbstractDevice> GetDevices()
+        public Dictionary<string, MILAV.API.Device.IDevice> GetDevices()
         {
             return configuration.devices;
         }
 
-        public AbstractDevice? GetDeviceById(string id)
+        public MILAV.API.Device.IDevice? GetDeviceById(string id)
         {
             return configuration.devices[id];
         }

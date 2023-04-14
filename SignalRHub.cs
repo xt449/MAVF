@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.SignalR;
 using MILAV.API;
-using MILAV.API.Connection;
 using MILAV.API.Device;
 
 namespace MILAV
@@ -17,44 +16,36 @@ namespace MILAV
 
         // Devices
 
-        public IEnumerable<AbstractDevice> GetDevices()
+        public IEnumerable<IDevice> GetDevices()
         {
             return controller.GetDevices().Values;
         }
 
         // Device
 
-        public AbstractDevice? GetDeviceById(string id)
+        public IDevice? GetDeviceById(string deviceId)
         {
-            return controller.GetDeviceById(id);
+            return controller.GetDeviceById(deviceId);
         }
 
-        // Should this be hidden?
-        public string? GetDeviceIpById(string id)
+        public IEnumerable<Input>? GetDeviceInputsById(string deviceId)
         {
-            return controller.GetDeviceById(id)?.ip;
+            if(controller.GetDeviceById(deviceId) is IRouteControl routing)
+            {
+                return routing.Inputs.Values;
+            }
+
+            return null;
         }
 
-        // Should this be hidden?
-        public int? GetDevicePortById(string id)
+        public IEnumerable<Output>? GetDeviceOutputsById(string deviceId)
         {
-            return controller.GetDeviceById(id)?.port;
-        }
+            if (controller.GetDeviceById(deviceId) is IRouteControl routing)
+            {
+                return routing.Outputs.Values;
+            }
 
-        // Should this be hidden?
-        public Protocol? GetDeviceProtocolById(string id)
-        {
-            return controller.GetDeviceById(id)?.protocol;
-        }
-
-        public IEnumerable<Input>? GetDeviceInputsById(string id)
-        {
-            return controller.GetDeviceById(id)?.Inputs.Values;
-        }
-
-        public IEnumerable<Output>? GetDeviceOutputsById(string id)
-        {
-            return controller.GetDeviceById(id)?.Outputs.Values;
+            return null;
         }
 
         // ControlState
@@ -79,10 +70,8 @@ namespace MILAV
 
         // Routing
 
-        public bool TryRoute(Input input, Output output)
+        public bool TryRoute(string deviceId, Input input, Output output)
         {
-            // Should Input and Output be implementation specific?
-
             if (input.type != output.type)
             {
                 return false;
@@ -95,7 +84,7 @@ namespace MILAV
                 return false;
             }
 
-            if (output.device is IRouteControl routing)
+            if (controller.GetDeviceById(deviceId) is IRouteControl routing)
             {
                 return routing.Route(input, output);
             }
@@ -103,7 +92,7 @@ namespace MILAV
             return false;
         }
 
-        public Input? GetRoute(Output output)
+        public Input? GetRoute(string deviceId, Output output)
         {
             throw new NotImplementedException();
         }
