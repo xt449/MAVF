@@ -111,5 +111,10 @@ namespace MILAV
         {
             return configuration.devices[id];
         }
+
+        public User? GetUserByIp(string ip)
+        {
+            return configuration.users[ip];
+        }
     }
 }

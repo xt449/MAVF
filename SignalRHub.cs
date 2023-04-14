@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.SignalR;
+﻿using Microsoft.AspNetCore.Http.Features;
+using Microsoft.AspNetCore.SignalR;
 using MILAV.API;
 using MILAV.API.Connection;
 using MILAV.API.Device;
@@ -80,9 +81,23 @@ namespace MILAV
 
         public bool TryRoute(Input input, Output output)
         {
-            if (output.device is IRouteControl controller)
+            // Should Input and Output be implementation specific?
+
+            if (input.type != output.type)
             {
-                return controller.Route(input, output);
+                return false;
+            }
+
+            var clientIp = Context.Features.Get<IHttpConnectionFeature>().RemoteIpAddress.ToString();
+            var user = controller.GetUserByIp(clientIp);
+            if (user == null || !user.CanRouteInput(input) || !user.CanRouteOutput(output))
+            {
+                return false;
+            }
+
+            if (output.device is IRouteControl routing)
+            {
+                return routing.Route(input, output);
             }
 
             return false;
