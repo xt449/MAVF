@@ -5,6 +5,7 @@ using Newtonsoft.Json;
 
 namespace MILAV.Device.NVX
 {
+    [Device("nvx")]
     public class NVXController : IDevice, IRouteControl<NVXEndpoint, NVXEndpoint>
     {
         public string Id { get; init; }
