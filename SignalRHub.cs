@@ -76,10 +76,21 @@ namespace MILAV
             await Clients.All.SendAsync("AckSetControlState", state);
         }
 
-        // TVTuner
+        // Routing
 
-        // VideoController > VideoWall
+        public bool TryRoute(Input input, Output output)
+        {
+            if (output.device is IRouteControl controller)
+            {
+                return controller.Route(input, output);
+            }
 
-        // VTC
+            return false;
+        }
+
+        public Input? GetRoute(Output output)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
