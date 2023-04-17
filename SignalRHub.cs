@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.SignalR;
 using MILAV.API;
 using MILAV.API.Device;
 using MILAV.API.Device.Routing;
+using MILAV.API.Device.Video;
+using MILAV.API.Layout;
 
 namespace MILAV
 {
@@ -29,26 +31,6 @@ namespace MILAV
             return controller.GetDeviceById(deviceId);
         }
 
-        public IEnumerable<IInputOutput>? GetDeviceInputsById(string deviceId)
-        {
-            if (controller.GetDeviceById(deviceId) is IRouteControl<IInputOutput, IInputOutput> routing)
-            {
-                return routing.Inputs.Values;
-            }
-
-            return null;
-        }
-
-        public IEnumerable<IInputOutput>? GetDeviceOutputsById(string deviceId)
-        {
-            if (controller.GetDeviceById(deviceId) is IRouteControl<IInputOutput, IInputOutput> routing)
-            {
-                return routing.Outputs.Values;
-            }
-
-            return null;
-        }
-
         // ControlState
 
         public string GetControlState()
@@ -71,6 +53,26 @@ namespace MILAV
 
         // Routing
 
+        public IEnumerable<IInputOutput>? GetDeviceInputsById(string deviceId)
+        {
+            if (controller.GetDeviceById(deviceId) is IRouteControl<IInputOutput, IInputOutput> device)
+            {
+                return device.Inputs.Values;
+            }
+
+            return null;
+        }
+
+        public IEnumerable<IInputOutput>? GetDeviceOutputsById(string deviceId)
+        {
+            if (controller.GetDeviceById(deviceId) is IRouteControl<IInputOutput, IInputOutput> device)
+            {
+                return device.Outputs.Values;
+            }
+
+            return null;
+        }
+
         public bool TryRoute(string deviceId, IInputOutput input, IInputOutput output)
         {
             var clientIp = Context.Features.Get<IHttpConnectionFeature>().RemoteIpAddress.ToString();
@@ -80,9 +82,9 @@ namespace MILAV
                 return false;
             }
 
-            if (controller.GetDeviceById(deviceId) is IRouteControl<IInputOutput, IInputOutput> routing)
+            if (controller.GetDeviceById(deviceId) is IRouteControl<IInputOutput, IInputOutput> device)
             {
-                return routing.Route(input, output);
+                return device.Route(input, output);
             }
 
             return false;
@@ -90,7 +92,35 @@ namespace MILAV
 
         public IInputOutput? GetRoute(string deviceId, IInputOutput output)
         {
-            throw new NotImplementedException();
+            if (controller.GetDeviceById(deviceId) is IRouteControl<IInputOutput, IInputOutput> device)
+            {
+                return device.GetRoute(output);
+            }
+
+            return null;
+        }
+
+        // Layouts
+
+        public bool TryLayout(string deviceId, ILayout layout)
+        {
+            if (controller.GetDeviceById(deviceId) is ILayoutControl device)
+            {
+                device.SetLayout(layout);
+                return true;
+            }
+
+            return false;
+        }
+
+        public ILayout? GetLayout(string deviceId)
+        {
+            if (controller.GetDeviceById(deviceId) is ILayoutControl device)
+            {
+                return device.GetLayout();
+            }
+
+            return null;
         }
     }
 }
