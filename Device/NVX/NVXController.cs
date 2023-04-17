@@ -43,7 +43,13 @@ namespace MILAV.Device.NVX
 
         bool IRouteControl<NVXInputOutput, NVXInputOutput>.ExecuteRoute(NVXInputOutput input, NVXInputOutput output)
         {
-            throw new NotImplementedException();
+            var endpoint = endpoints[output.ip];
+            if(endpoint == null)
+            {
+                return false;
+            }
+
+            return endpoint.Route(input, output.port);
         }
     }
 }
