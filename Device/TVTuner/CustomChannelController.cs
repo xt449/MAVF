@@ -6,7 +6,7 @@ using System.Text.RegularExpressions;
 namespace MILAV.Device.TVTuner
 {
     [Device("customtvtuner")]
-    public class CustomChannelController : AbstractDevice, IChannelControl
+    public class CustomChannelController : AbstractNetworkDevice, IChannelControl
     {
         [JsonProperty(Required = Required.DisallowNull)]
         public readonly string requestGetChannel;

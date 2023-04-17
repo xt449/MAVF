@@ -8,7 +8,7 @@ using System.Text.RegularExpressions;
 namespace MILAV.Device.USB
 {
     [Device("customusb")]
-    public class CustomUSBController : AbstractDevice, IUSBControl<InputOutputPort, InputOutputPort>
+    public class CustomUSBController : AbstractNetworkDevice, IUSBControl<InputOutputPort, InputOutputPort>
     {
         [JsonProperty(Required = Required.DisallowNull)]
         public readonly string requestSetRoute;
