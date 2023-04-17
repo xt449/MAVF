@@ -6,24 +6,42 @@ using Newtonsoft.Json;
 namespace MILAV.Device.NVX
 {
     [Device("nvx")]
-    public class NVXController : IDevice, IRouteControl<NVXEndpoint, NVXEndpoint>
+    public class NVXController : IDevice, IRouteControl<NVXInputOutput, NVXInputOutput>
     {
         public string Id { get; init; }
 
-        [JsonConverter(typeof(IdentifiableCollectionToDictionaryConverter<InputOutputPort>))]
+        [JsonConverter(typeof(IdentifiableCollectionToDictionaryConverter<NVXInputOutput>))]
         [JsonProperty(Required = Required.DisallowNull)]
-        public Dictionary<string, NVXEndpoint> Inputs { get; init; }
+        public Dictionary<string, NVXInputOutput> Inputs { get; init; }
 
-        [JsonConverter(typeof(IdentifiableCollectionToDictionaryConverter<InputOutputPort>))]
+        [JsonConverter(typeof(IdentifiableCollectionToDictionaryConverter<NVXInputOutput>))]
         [JsonProperty(Required = Required.DisallowNull)]
-        public Dictionary<string, NVXEndpoint> Outputs { get; init; }
+        public Dictionary<string, NVXInputOutput> Outputs { get; init; }
+
+        Dictionary<NVXInputOutput, NVXInputOutput> IRouteControl<NVXInputOutput, NVXInputOutput>.routes { get; } = new Dictionary<NVXInputOutput, NVXInputOutput>();
+
+        private readonly Dictionary<string, NVXEndpoint> endpoints = new Dictionary<string, NVXEndpoint>();
 
         public void Initialize()
         {
-            throw new NotImplementedException();
+            foreach (var input in Inputs.Values)
+            {
+                if (!endpoints.ContainsKey(input.ip))
+                {
+                    endpoints.Add(input.ip, new NVXEndpoint());
+                }
+            }
+
+            foreach (var output in Outputs.Values)
+            {
+                if (!endpoints.ContainsKey(output.ip))
+                {
+                    endpoints.Add(output.ip, new NVXEndpoint());
+                }
+            }
         }
 
-        bool IRouteControl<NVXEndpoint, NVXEndpoint>.ExecuteRoute(NVXEndpoint input, NVXEndpoint output)
+        bool IRouteControl<NVXInputOutput, NVXInputOutput>.ExecuteRoute(NVXInputOutput input, NVXInputOutput output)
         {
             throw new NotImplementedException();
         }
