@@ -14,16 +14,16 @@ namespace MILAV.Device.NVX
         private readonly Dictionary<int, string> inputUUIDs = new Dictionary<int, string>();
         private readonly Dictionary<int, string> outputUUIDs = new Dictionary<int, string>();
 
-        public NVXEndpoint(string ip, string username, string password)
+        public NVXEndpoint(NVXInputOutput data)
         {
-            this.username = username;
-            this.password = password;
+            username = data.username;
+            password = data.password;
 
             var clientHandler = new HttpClientHandler();
             clientHandler.CookieContainer = new CookieContainer();
             clientHandler.UseCookies = true;
             client = new HttpClient(clientHandler);
-            client.BaseAddress = new Uri($"https://{ip}");
+            client.BaseAddress = new Uri($"https://{data.ip}");
             
             // Authentication Headers
             client.DefaultRequestHeaders.Add("Origin", client.BaseAddress.ToString());

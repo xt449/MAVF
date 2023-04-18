@@ -28,7 +28,7 @@ namespace MILAV.Device.NVX
             {
                 if (!endpoints.ContainsKey(input.ip))
                 {
-                    endpoints.Add(input.ip, new NVXEndpoint());
+                    endpoints.Add(input.ip, new NVXEndpoint(input));
                 }
             }
 
@@ -36,7 +36,7 @@ namespace MILAV.Device.NVX
             {
                 if (!endpoints.ContainsKey(output.ip))
                 {
-                    endpoints.Add(output.ip, new NVXEndpoint());
+                    endpoints.Add(output.ip, new NVXEndpoint(output));
                 }
             }
         }

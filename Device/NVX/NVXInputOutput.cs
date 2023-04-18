@@ -7,5 +7,11 @@ namespace MILAV.Device.NVX
     {
         [JsonProperty(Required = Required.DisallowNull)]
         public readonly string ip;
+
+        [JsonProperty(Required = Required.DisallowNull)]
+        public readonly string username;
+
+        [JsonProperty(Required = Required.DisallowNull)]
+        public readonly string password;
     }
 }
