@@ -24,7 +24,7 @@ namespace MILAV.Device.NVX
             clientHandler.UseCookies = true;
             client = new HttpClient(clientHandler);
             client.BaseAddress = new Uri($"https://{data.ip}");
-            
+
             // Authentication Headers
             client.DefaultRequestHeaders.Add("Origin", client.BaseAddress.ToString());
             client.DefaultRequestHeaders.Add("Referer", $"{client.BaseAddress}/userlogin.html");
