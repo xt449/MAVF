@@ -26,24 +26,24 @@ namespace MILAV.Device.NVX
         {
             foreach (var input in Inputs.Values)
             {
-                if (!endpoints.ContainsKey(input.ip))
+                if (!endpoints.ContainsKey(input.Id))
                 {
-                    endpoints.Add(input.ip, new NVXEndpoint(input));
+                    endpoints.Add(input.Id, new NVXEndpoint(input));
                 }
             }
 
             foreach (var output in Outputs.Values)
             {
-                if (!endpoints.ContainsKey(output.ip))
+                if (!endpoints.ContainsKey(output.Id))
                 {
-                    endpoints.Add(output.ip, new NVXEndpoint(output));
+                    endpoints.Add(output.Id, new NVXEndpoint(output));
                 }
             }
         }
 
         bool IRouteControl<NVXInputOutput, NVXInputOutput>.ExecuteRoute(NVXInputOutput input, NVXInputOutput output)
         {
-            var endpoint = endpoints[output.ip];
+            var endpoint = endpoints[output.Id];
             if (endpoint == null)
             {
                 return false;
