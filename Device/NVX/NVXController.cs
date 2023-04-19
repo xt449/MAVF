@@ -18,7 +18,7 @@ namespace MILAV.Device.NVX
         [JsonProperty(Required = Required.DisallowNull)]
         public Dictionary<string, NVXInputOutput> Outputs { get; init; }
 
-        Dictionary<NVXInputOutput, NVXInputOutput> IRouteControl<NVXInputOutput, NVXInputOutput>.routes { get; } = new Dictionary<NVXInputOutput, NVXInputOutput>();
+        Dictionary<NVXInputOutput, NVXInputOutput> IRouteControl<NVXInputOutput, NVXInputOutput>.Routes { get; } = new Dictionary<NVXInputOutput, NVXInputOutput>();
 
         private readonly Dictionary<string, NVXEndpoint> endpoints = new Dictionary<string, NVXEndpoint>();
 

@@ -51,7 +51,10 @@ namespace MILAV.Device.NVX
 
             foreach (var input in inputs)
             {
-                inputUUIDs.Add(int.Parse(((string)input["Name"]).Substring(5)) + 1, (string?)input["Uuid"]);
+                inputUUIDs.Add(
+                    int.Parse(((string?)input["Name"] ?? throw new JsonException($"Unable to deserialize input. Missing Name property")).Substring(5)) + 1,
+                    (string?)input["Uuid"] ?? throw new JsonException($"Unable to deserialize input. Missing Uuid property")
+                );
             }
         }
 
@@ -67,7 +70,10 @@ namespace MILAV.Device.NVX
 
             foreach (var output in outputs)
             {
-                inputUUIDs.Add(int.Parse(((string)output["Name"]).Substring(6)) + 1, (string?)output["Uuid"]);
+                inputUUIDs.Add(
+                    int.Parse(((string?)output["Name"] ?? throw new JsonException($"Unable to deserialize input. Missing Name property")).Substring(6)) + 1,
+                    (string?)output["Uuid"] ?? throw new JsonException($"Unable to deserialize input. Missing Uuid property")
+                );
             }
         }
 
@@ -80,7 +86,7 @@ namespace MILAV.Device.NVX
 
                 // Paused working on this for now since the NVX devices that we have appear to be error prone
                 // NVX end points seem to have a very incomplete API and documentation
-                var response = await client.PostAsync("/Device", new StringContent(null)) ?? throw new NotImplementedException();
+                var response = await client.PostAsync("/Device", null) ?? throw new NotImplementedException();
 
                 return response.IsSuccessStatusCode;
             }).Result;

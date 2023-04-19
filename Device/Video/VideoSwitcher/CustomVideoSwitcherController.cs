@@ -24,7 +24,7 @@ namespace MILAV.Device.Video.VideoSwitcher
         [JsonProperty(Required = Required.DisallowNull)]
         public Dictionary<string, InputOutputPort> Outputs { get; init; }
 
-        Dictionary<InputOutputPort, InputOutputPort> IRouteControl<InputOutputPort, InputOutputPort>.routes { get; } = new Dictionary<InputOutputPort, InputOutputPort>();
+        Dictionary<InputOutputPort, InputOutputPort> IRouteControl<InputOutputPort, InputOutputPort>.Routes { get; } = new Dictionary<InputOutputPort, InputOutputPort>();
 
         bool IRouteControl<InputOutputPort, InputOutputPort>.ExecuteRoute(InputOutputPort input, InputOutputPort output)
         {
