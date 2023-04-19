@@ -25,18 +25,18 @@ namespace MILAV.Device.NVX
             client = new HttpClient(clientHandler);
             client.BaseAddress = new Uri($"https://{data.ip}");
 
-            // Authentication Headers
-            client.DefaultRequestHeaders.Add("Origin", client.BaseAddress.ToString());
-            client.DefaultRequestHeaders.Add("Referer", $"{client.BaseAddress}/userlogin.html");
-
-            Authenticate().Wait();
+            if(!Authenticate().Result)
+            {
+                throw new Exception($"NVXEndpoint failed authentication @ {client.BaseAddress}");
+            }
         }
 
-        private async Task Authenticate()
+        private async Task<bool> Authenticate()
         {
             // No need to GET the userlogin
             //await client.GetAsync("userlogin.html");
-            await client.PostAsync("/userlogin.html", new StringContent($"login={username}&&passwd={password}", Encoding.UTF8, "text/plain"));
+            var response = await client.PostAsync("/userlogin.html", new StringContent($"login={username}&&passwd={password}", Encoding.UTF8, "text/plain"));
+            return response?.IsSuccessStatusCode ?? false;
         }
 
         private async Task UpdateInputs()
