@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.SignalR;
 using MILAV.API;
 using MILAV.API.Device;
+using MILAV.API.Device.PDU;
 using MILAV.API.Device.Routing;
 using MILAV.API.Device.TVTuner;
 using MILAV.API.Device.Video;
@@ -145,6 +146,30 @@ namespace MILAV
             }
 
             return null;
+        }
+
+        // PDU
+
+        public bool TryTurnPowerOn(string deviceId, int port)
+        {
+            if (controller.GetDeviceById(deviceId) is IPDUControl device)
+            {
+                device.TurnPowerOn(port);
+                return true;
+            }
+
+            return false;
+        }
+
+        public bool TryTurnPowerOff(string deviceId, int port)
+        {
+            if (controller.GetDeviceById(deviceId) is IPDUControl device)
+            {
+                device.TurnPowerOff(port);
+                return true;
+            }
+
+            return false;
         }
     }
 }
