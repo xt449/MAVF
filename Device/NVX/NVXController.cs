@@ -6,50 +6,34 @@ using Newtonsoft.Json;
 namespace MILAV.Device.NVX
 {
     [Device("nvx")]
-    public class NVXController : IDevice, IRouteControl<NVXInputOutput, NVXInputOutput>
+    public class NVXController : IDevice, IRouteControl<NVXEndpoint, NVXEndpoint>
     {
         public string Id { get; init; }
 
-        [JsonConverter(typeof(IdentifiableCollectionToDictionaryConverter<NVXInputOutput>))]
+        [JsonConverter(typeof(IdentifiableCollectionToDictionaryConverter<NVXEndpoint>))]
         [JsonProperty(Required = Required.DisallowNull)]
-        public Dictionary<string, NVXInputOutput> Inputs { get; init; }
+        public Dictionary<string, NVXEndpoint> Inputs { get; init; }
 
-        [JsonConverter(typeof(IdentifiableCollectionToDictionaryConverter<NVXInputOutput>))]
+        [JsonConverter(typeof(IdentifiableCollectionToDictionaryConverter<NVXEndpoint>))]
         [JsonProperty(Required = Required.DisallowNull)]
-        public Dictionary<string, NVXInputOutput> Outputs { get; init; }
+        public Dictionary<string, NVXEndpoint> Outputs { get; init; }
 
-        Dictionary<NVXInputOutput, NVXInputOutput> IRouteControl<NVXInputOutput, NVXInputOutput>.Routes { get; } = new Dictionary<NVXInputOutput, NVXInputOutput>();
-
-        private readonly Dictionary<string, NVXEndpoint> endpoints = new Dictionary<string, NVXEndpoint>();
+        Dictionary<NVXEndpoint, NVXEndpoint> IRouteControl<NVXEndpoint, NVXEndpoint>.Routes { get; } = new Dictionary<NVXEndpoint, NVXEndpoint>();
 
         public void Initialize()
         {
-            foreach (var input in Inputs.Values)
-            {
-                if (!endpoints.ContainsKey(input.Id))
-                {
-                    endpoints.Add(input.Id, new NVXEndpoint(input));
-                }
-            }
 
-            foreach (var output in Outputs.Values)
-            {
-                if (!endpoints.ContainsKey(output.Id))
-                {
-                    endpoints.Add(output.Id, new NVXEndpoint(output));
-                }
-            }
         }
 
-        bool IRouteControl<NVXInputOutput, NVXInputOutput>.ExecuteRoute(NVXInputOutput input, NVXInputOutput output)
+        bool IRouteControl<NVXEndpoint, NVXEndpoint>.ExecuteRoute(NVXEndpoint input, NVXEndpoint output)
         {
-            var endpoint = endpoints[output.Id];
+            var endpoint = Outputs[output.Id];
             if (endpoint == null)
             {
                 return false;
             }
 
-            return endpoint.Route(input, output.port);
+            return endpoint.Route(input, output.port).Result;
         }
     }
 }
