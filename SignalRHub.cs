@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.SignalR;
 using MILAV.API;
 using MILAV.API.Device;
 using MILAV.API.Device.Routing;
+using MILAV.API.Device.TVTuner;
 using MILAV.API.Device.Video;
 using MILAV.API.Layout;
 
@@ -73,7 +74,7 @@ namespace MILAV
             return null;
         }
 
-        public bool TryRoute(string deviceId, IInputOutput input, IInputOutput output)
+        public bool TrySetRoute(string deviceId, IInputOutput input, IInputOutput output)
         {
             var clientIp = Context.Features.Get<IHttpConnectionFeature>().RemoteIpAddress.ToString();
             var user = controller.GetUserByIp(clientIp);
@@ -100,9 +101,9 @@ namespace MILAV
             return null;
         }
 
-        // Layouts
+        // Layout
 
-        public bool TryLayout(string deviceId, ILayout layout)
+        public bool TrySetLayout(string deviceId, ILayout layout)
         {
             if (controller.GetDeviceById(deviceId) is ILayoutControl device)
             {
@@ -118,6 +119,29 @@ namespace MILAV
             if (controller.GetDeviceById(deviceId) is ILayoutControl device)
             {
                 return device.GetLayout();
+            }
+
+            return null;
+        }
+
+        // TVTuner
+
+        public bool TrySetChannel(string deviceId, string channel)
+        {
+            if (controller.GetDeviceById(deviceId) is IChannelControl device)
+            {
+                device.SetChannel(channel);
+                return true;
+            }
+
+            return false;
+        }
+
+        public string? GetChannel(string deviceId)
+        {
+            if (controller.GetDeviceById(deviceId) is IChannelControl device)
+            {
+                return device.GetChannel();
             }
 
             return null;
