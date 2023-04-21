@@ -56,7 +56,7 @@ namespace MILAV.Device.NVX
 
         public async Task<bool> Route(NVXEndpoint input, int port)
         {
-            var response = await client.PostAsync($"/Device/StreamReceive/{port}/", new StringContent($"\"Device\":{{\"StreamReceive\":{{\"Streams\":[{{\"StreamLocation\":\"{input.streamLocation}\",\"Start\":true}}]}}}}"));
+            var response = await client.PostAsync($"/Device/StreamReceive/{port}/", new StringContent($"\"Device\":{{\"StreamReceive\":{{\"Streams\":[{{\"StreamLocation\":\"{input.streamLocation}\",\"Start\":true}}]}}}}", Encoding.UTF8, "application/json"));
 
             return response.IsSuccessStatusCode;
         }
