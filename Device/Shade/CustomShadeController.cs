@@ -1,9 +1,6 @@
 ﻿using MILAV.API.Device;
 using MILAV.API.Device.Shade;
-using MILAV.API.Device.TVTuner;
 using Newtonsoft.Json;
-using System.Text.RegularExpressions;
-using System.Threading.Channels;
 
 namespace MILAV.Device.TVTuner
 {
@@ -18,7 +15,7 @@ namespace MILAV.Device.TVTuner
 
         [JsonProperty(Required = Required.DisallowNull)]
         public readonly string requestShadesOpen;
-        
+
         public void ShadesClose()
         {
             if (Connection.Connect())

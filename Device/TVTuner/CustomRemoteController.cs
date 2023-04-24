@@ -1,7 +1,6 @@
-﻿using MILAV.API.Device.TVTuner;
-using MILAV.API.Device;
+﻿using MILAV.API.Device;
+using MILAV.API.Device.TVTuner;
 using Newtonsoft.Json;
-using System.Threading.Channels;
 using System.Text.RegularExpressions;
 
 namespace MILAV.Device.TVTuner
