@@ -34,9 +34,6 @@ namespace MILAV.Device.TVTuner
         {
             if (Connection.Connect())
             {
-                // RegEx formatting ($1)?
-                // C# formatting ({0})?
-                // or something else?
                 Connection.WriteASCII(requestPanUp);
             }
         }
@@ -45,9 +42,6 @@ namespace MILAV.Device.TVTuner
         {
             if (Connection.Connect())
             {
-                // RegEx formatting ($1)?
-                // C# formatting ({0})?
-                // or something else?
                 Connection.WriteASCII(requestPanDown);
             }
         }
@@ -56,9 +50,6 @@ namespace MILAV.Device.TVTuner
         {
             if (Connection.Connect())
             {
-                // RegEx formatting ($1)?
-                // C# formatting ({0})?
-                // or something else?
                 Connection.WriteASCII(requestPanLeft);
             }
         }
@@ -67,9 +58,6 @@ namespace MILAV.Device.TVTuner
         {
             if (Connection.Connect())
             {
-                // RegEx formatting ($1)?
-                // C# formatting ({0})?
-                // or something else?
                 Connection.WriteASCII(requestPanRight);
             }
         }
@@ -78,9 +66,6 @@ namespace MILAV.Device.TVTuner
         {
             if (Connection.Connect())
             {
-                // RegEx formatting ($1)?
-                // C# formatting ({0})?
-                // or something else?
                 Connection.WriteASCII(requestZoomIn);
             }
         }
@@ -89,9 +74,6 @@ namespace MILAV.Device.TVTuner
         {
             if (Connection.Connect())
             {
-                // RegEx formatting ($1)?
-                // C# formatting ({0})?
-                // or something else?
                 Connection.WriteASCII(requestZoomOut);
             }
         }
@@ -100,9 +82,6 @@ namespace MILAV.Device.TVTuner
         {
             if (Connection.Connect())
             {
-                // RegEx formatting ($1)?
-                // C# formatting ({0})?
-                // or something else?
                 Connection.WriteASCII(requestOpenLens);
             }
         }
@@ -111,9 +90,6 @@ namespace MILAV.Device.TVTuner
         {
             if (Connection.Connect())
             {
-                // RegEx formatting ($1)?
-                // C# formatting ({0})?
-                // or something else?
                 Connection.WriteASCII(requestCloseLens);
             }
         }

@@ -20,9 +20,6 @@ namespace MILAV.Device.TVTuner
         {
             if (Connection.Connect())
             {
-                // RegEx formatting ($1)?
-                // C# formatting ({0})?
-                // or something else?
                 Connection.WriteASCII(requestShadesClose);
             }
         }
@@ -31,9 +28,6 @@ namespace MILAV.Device.TVTuner
         {
             if (Connection.Connect())
             {
-                // RegEx formatting ($1)?
-                // C# formatting ({0})?
-                // or something else?
                 Connection.WriteASCII(responseShadesHalf);
             }
         }
@@ -42,9 +36,6 @@ namespace MILAV.Device.TVTuner
         {
             if (Connection.Connect())
             {
-                // RegEx formatting ($1)?
-                // C# formatting ({0})?
-                // or something else?
                 Connection.WriteASCII(requestShadesOpen);
             }
         }
