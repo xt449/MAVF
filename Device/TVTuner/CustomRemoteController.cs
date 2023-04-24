@@ -14,6 +14,9 @@ namespace MILAV.Device.TVTuner
         public readonly string requestSetPowerOff;
 
         [JsonProperty(Required = Required.DisallowNull)]
+        public readonly string requestArrowUp;
+
+        [JsonProperty(Required = Required.DisallowNull)]
         public readonly string requestArrowDown;
 
         [JsonProperty(Required = Required.DisallowNull)]
@@ -21,9 +24,6 @@ namespace MILAV.Device.TVTuner
 
         [JsonProperty(Required = Required.DisallowNull)]
         public readonly string requestArrowRight;
-
-        [JsonProperty(Required = Required.DisallowNull)]
-        public readonly string requestArrowUp;
 
         [JsonProperty(Required = Required.DisallowNull)]
         public readonly string requestBack;
@@ -69,6 +69,17 @@ namespace MILAV.Device.TVTuner
             }
         }
 
+        public void ArrowUp()
+        {
+            if (Connection.Connect())
+            {
+                // RegEx formatting ($1)?
+                // C# formatting ({0})?
+                // or something else?
+                Connection.WriteASCII(requestArrowUp);
+            }
+        }
+
         public void ArrowDown()
         {
             if (Connection.Connect())
@@ -99,17 +110,6 @@ namespace MILAV.Device.TVTuner
                 // C# formatting ({0})?
                 // or something else?
                 Connection.WriteASCII(requestArrowRight);
-            }
-        }
-
-        public void ArrowUp()
-        {
-            if (Connection.Connect())
-            {
-                // RegEx formatting ($1)?
-                // C# formatting ({0})?
-                // or something else?
-                Connection.WriteASCII(requestArrowUp);
             }
         }
 
