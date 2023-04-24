@@ -1,12 +1,11 @@
 ﻿using MILAV.API.Device.Routing;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using System.Net;
 using System.Text;
 
 namespace MILAV.Device.NVX
 {
-    public class NVXEndpoint : InputOutputPort
+    public abstract class NVXEndpoint : InputOutputPort
     {
         [JsonProperty(Required = Required.DisallowNull)]
         public readonly string ip;
@@ -17,9 +16,7 @@ namespace MILAV.Device.NVX
         [JsonProperty(Required = Required.DisallowNull)]
         public readonly string password;
 
-        private readonly HttpClient client;
-
-        private readonly string streamLocation;
+        protected readonly HttpClient client;
 
         public NVXEndpoint()
         {
@@ -33,11 +30,9 @@ namespace MILAV.Device.NVX
             {
                 throw new Exception($"NVXEndpoint failed authentication @ {client.BaseAddress}");
             }
-
-            streamLocation = GetStreamLocation().Result;
         }
 
-        private async Task<bool> Authenticate()
+        protected async Task<bool> Authenticate()
         {
             // No need to GET the userlogin
             //await client.GetAsync("userlogin.html");
@@ -45,7 +40,7 @@ namespace MILAV.Device.NVX
             return response?.IsSuccessStatusCode ?? false;
         }
 
-        private async Task<string> GetStreamLocation()
+        /*private async Task<string> GetStreamLocation()
         {
             var response = await client.GetAsync($"/Device/StreamTransmit/Streams/{port - 1}/StreamLocation");
             var body = await response.Content.ReadAsStringAsync();
@@ -54,11 +49,11 @@ namespace MILAV.Device.NVX
             return (string?)json["Device"]?["StreamTransmit"]?["Streams"]?[port - 1]?["StreamLocation"] ?? throw new Exception($"NVXEndpoint failed to get stream location address @ {client.BaseAddress}");
         }
 
-        public async Task<bool> Route(NVXEndpoint input, int port)
+        public async Task<bool> Route(NVXEndpoint input)
         {
             var response = await client.PostAsync($"/Device/StreamReceive/{port}/", new StringContent($"\"Device\":{{\"StreamReceive\":{{\"Streams\":[{{\"StreamLocation\":\"{input.streamLocation}\",\"Start\":true}}]}}}}", Encoding.UTF8, "application/json"));
 
             return response.IsSuccessStatusCode;
-        }
+        }*/
     }
 }

@@ -6,26 +6,26 @@ using Newtonsoft.Json;
 namespace MILAV.Device.NVX
 {
     [Device("nvx")]
-    public class NVXController : IDevice, IRouteControl<NVXEndpoint, NVXEndpoint>
+    public class NVXController : IDevice, IRouteControl<NVXTransmitter, NVXReceiver>
     {
         public string Id { get; init; }
 
-        [JsonConverter(typeof(IdentifiableCollectionToDictionaryConverter<NVXEndpoint>))]
+        [JsonConverter(typeof(IdentifiableCollectionToDictionaryConverter<NVXTransmitter>))]
         [JsonProperty(Required = Required.DisallowNull)]
-        public Dictionary<string, NVXEndpoint> Inputs { get; init; }
+        public Dictionary<string, NVXTransmitter> Inputs { get; init; }
 
-        [JsonConverter(typeof(IdentifiableCollectionToDictionaryConverter<NVXEndpoint>))]
+        [JsonConverter(typeof(IdentifiableCollectionToDictionaryConverter<NVXReceiver>))]
         [JsonProperty(Required = Required.DisallowNull)]
-        public Dictionary<string, NVXEndpoint> Outputs { get; init; }
+        public Dictionary<string, NVXReceiver> Outputs { get; init; }
 
-        Dictionary<NVXEndpoint, NVXEndpoint> IRouteControl<NVXEndpoint, NVXEndpoint>.Routes { get; } = new Dictionary<NVXEndpoint, NVXEndpoint>();
+        Dictionary<NVXReceiver, NVXTransmitter> IRouteControl<NVXTransmitter, NVXReceiver>.Routes { get; } = new Dictionary<NVXReceiver, NVXTransmitter>();
 
         public void Initialize()
         {
-
+            // Apply possible default routes here?
         }
 
-        bool IRouteControl<NVXEndpoint, NVXEndpoint>.ExecuteRoute(NVXEndpoint input, NVXEndpoint output)
+        bool IRouteControl<NVXTransmitter, NVXReceiver>.ExecuteRoute(NVXTransmitter input, NVXReceiver output)
         {
             var endpoint = Outputs[output.Id];
             if (endpoint == null)
@@ -33,7 +33,7 @@ namespace MILAV.Device.NVX
                 return false;
             }
 
-            return endpoint.Route(input, output.port).Result;
+            return endpoint.Route(input).Result;
         }
     }
 }
