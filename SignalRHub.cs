@@ -35,7 +35,7 @@ namespace MILAV
 
         // ControlState
 
-        public string GetControlState()
+        public ControlState GetControlState()
         {
             return controller.GetControlState();
         }

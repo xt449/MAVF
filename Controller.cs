@@ -9,7 +9,8 @@ namespace MILAV
         private readonly JsonSerializer json = new JsonSerializer();
 
         private Configuration configuration;
-        private string controlState;
+        private readonly User masterUser;
+        private ControlState controlState;
 
         public Controller()
         {
@@ -18,7 +19,9 @@ namespace MILAV
             // Validate again
             if (configuration == null) throw new Exception("configuration is null");
 
-            controlState = configuration.defaultState;
+            masterUser = configuration.users[configuration.masterUser] ?? throw new Exception("Invalid master user id");
+
+            controlState = configuration.states[configuration.defaultState] ?? throw new Exception("Invalid default control state id");
             UpdateUserControlStates();
         }
 
@@ -43,25 +46,27 @@ namespace MILAV
             {
                 Console.WriteLine("creating default config file");
 
-                configuration = new Configuration(false, "");
+                configuration = new Configuration("");
 
                 using var writer = new StreamWriter("./config.json", false);
                 json.Serialize(writer, configuration);
             }
         }
 
+        public User GetMasterUser() => masterUser;
+
         public string GetDefaultControlState() => configuration.defaultState;
 
-        public string GetControlState() => controlState;
+        public ControlState GetControlState() => controlState;
 
         public void SetControlState(string nextState)
         {
-            if (controlState == nextState)
+            if (controlState.Id == nextState)
             {
                 return;
             }
 
-            controlState = configuration.defaultState;
+            controlState = configuration.states[nextState] ?? throw new Exception("Invalid control state id");
             UpdateUserControlStates();
         }
 
@@ -69,7 +74,7 @@ namespace MILAV
         {
             foreach (var user in configuration.users.Values)
             {
-                user.SetControlState(controlState);
+                user.SetControlGroups(controlState.controlling[user.Id]);
             }
         }
 
