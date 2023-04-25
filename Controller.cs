@@ -74,7 +74,7 @@ namespace MILAV
         {
             foreach (var user in configuration.users.Values)
             {
-                user.SetControlGroups(controlState.controlling[user.Id]);
+                user.SetControlGroups(controlState.controlling[user.Id] ?? new string[0]);
             }
         }
 
