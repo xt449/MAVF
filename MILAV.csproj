@@ -2,21 +2,13 @@
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
-    <Nullable>enable</Nullable>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <RootNamespace>MILAV</RootNamespace>
+	<RootNamespace>MILAV</RootNamespace>
+	<ImplicitUsings>enable</ImplicitUsings>
+	<Nullable>enable</Nullable>
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Remove="example_config.json" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\MILAV API\MILAV API.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Include="example_config.json" />
   </ItemGroup>
 
 </Project>
