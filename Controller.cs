@@ -1,4 +1,5 @@
 ﻿using MILAV.API;
+using MILAV.API.Device;
 using Newtonsoft.Json;
 
 namespace MILAV
@@ -72,12 +73,12 @@ namespace MILAV
             }
         }
 
-        public Dictionary<string, MILAV.API.Device.IDevice> GetDevices()
+        public Dictionary<string, IDevice> GetDevices()
         {
             return configuration.devices;
         }
 
-        public MILAV.API.Device.IDevice? GetDeviceById(string id)
+        public IDevice? GetDeviceById(string id)
         {
             return configuration.devices[id];
         }

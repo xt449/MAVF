@@ -3,7 +3,6 @@ using MILAV;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
 builder.Services.AddSignalR();
 
 // Initialize real backend
