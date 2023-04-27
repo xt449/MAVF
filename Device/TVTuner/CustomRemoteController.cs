@@ -7,55 +7,55 @@ namespace MILAV.Device.TVTuner
 {
     public class CustomRemoteController : AbstractNetworkDevice, IRemoteControl
     {
-        [JsonProperty(Required = Required.DisallowNull)]
+        [JsonProperty(Required = Required.Always)]
         public readonly string requestSetPowerOn;
 
-        [JsonProperty(Required = Required.DisallowNull)]
+        [JsonProperty(Required = Required.Always)]
         public readonly string requestSetPowerOff;
 
-        [JsonProperty(Required = Required.DisallowNull)]
+        [JsonProperty(Required = Required.Always)]
         public readonly string requestArrowUp;
 
-        [JsonProperty(Required = Required.DisallowNull)]
+        [JsonProperty(Required = Required.Always)]
         public readonly string requestArrowDown;
 
-        [JsonProperty(Required = Required.DisallowNull)]
+        [JsonProperty(Required = Required.Always)]
         public readonly string requestArrowLeft;
 
-        [JsonProperty(Required = Required.DisallowNull)]
+        [JsonProperty(Required = Required.Always)]
         public readonly string requestArrowRight;
 
-        [JsonProperty(Required = Required.DisallowNull)]
+        [JsonProperty(Required = Required.Always)]
         public readonly string requestBack;
 
-        [JsonProperty(Required = Required.DisallowNull)]
+        [JsonProperty(Required = Required.Always)]
         public readonly string requestChannelDown;
 
-        [JsonProperty(Required = Required.DisallowNull)]
+        [JsonProperty(Required = Required.Always)]
         public readonly string requestChannelUp;
 
-        [JsonProperty(Required = Required.DisallowNull)]
+        [JsonProperty(Required = Required.Always)]
         public readonly string requestEnter;
 
-        [JsonProperty(Required = Required.DisallowNull)]
+        [JsonProperty(Required = Required.Always)]
         public readonly string requestExit;
 
-        [JsonProperty(Required = Required.DisallowNull)]
+        [JsonProperty(Required = Required.Always)]
         public readonly string requestGetPower;
 
-        [JsonProperty(Required = Required.DisallowNull)]
+        [JsonProperty(Required = Required.Always)]
         public readonly string responseGetPower;
 
-        [JsonProperty(Required = Required.DisallowNull)]
+        [JsonProperty(Required = Required.Always)]
         public readonly string requestGuide;
 
-        [JsonProperty(Required = Required.DisallowNull)]
+        [JsonProperty(Required = Required.Always)]
         public readonly string requestMenu;
 
-        [JsonProperty(Required = Required.DisallowNull)]
+        [JsonProperty(Required = Required.Always)]
         public readonly string requestVolumeDown;
 
-        [JsonProperty(Required = Required.DisallowNull)]
+        [JsonProperty(Required = Required.Always)]
         public readonly string requestVolumeUp;
 
         public void SetPower(bool state)

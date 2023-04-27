@@ -8,13 +8,13 @@ namespace MILAV.Device.TVTuner
     [Device("customtvtuner")]
     public class CustomChannelController : AbstractNetworkDevice, IChannelControl
     {
-        [JsonProperty(Required = Required.DisallowNull)]
+        [JsonProperty(Required = Required.Always)]
         public readonly string requestGetChannel;
 
-        [JsonProperty(Required = Required.DisallowNull)]
+        [JsonProperty(Required = Required.Always)]
         public readonly string responseGetChannel;
 
-        [JsonProperty(Required = Required.DisallowNull)]
+        [JsonProperty(Required = Required.Always)]
         public readonly string requestSetChannel;
 
         public string? GetChannel()
@@ -37,10 +37,7 @@ namespace MILAV.Device.TVTuner
         {
             if (Connection.Connect())
             {
-                // RegEx formatting ($1)?
-                // C# formatting ({0})?
-                // or something else?
-                Connection.WriteASCII(requestSetChannel.Replace("$1", channel));
+                Connection.WriteASCII(string.Format(requestSetChannel, channel));
             }
         }
     }

@@ -7,13 +7,13 @@ namespace MILAV.Device.TVTuner
     [Device("customtshade")]
     public class CustomShadeController : AbstractNetworkDevice, IShadeControl
     {
-        [JsonProperty(Required = Required.DisallowNull)]
+        [JsonProperty(Required = Required.Always)]
         public readonly string requestShadesClose;
 
-        [JsonProperty(Required = Required.DisallowNull)]
+        [JsonProperty(Required = Required.Always)]
         public readonly string responseShadesHalf;
 
-        [JsonProperty(Required = Required.DisallowNull)]
+        [JsonProperty(Required = Required.Always)]
         public readonly string requestShadesOpen;
 
         public void ShadesClose()

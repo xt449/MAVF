@@ -7,13 +7,13 @@ namespace MILAV.Device.NVX
 {
     public abstract class NVXEndpoint : InputOutputPort
     {
-        [JsonProperty(Required = Required.DisallowNull)]
+        [JsonProperty(Required = Required.Always)]
         public readonly string ip;
 
-        [JsonProperty(Required = Required.DisallowNull)]
+        [JsonProperty(Required = Required.Always)]
         public readonly string username;
 
-        [JsonProperty(Required = Required.DisallowNull)]
+        [JsonProperty(Required = Required.Always)]
         public readonly string password;
 
         protected readonly HttpClient client;

@@ -10,10 +10,10 @@ namespace MILAV.Device.USB
     [Device("customusb")]
     public class CustomUSBController : AbstractNetworkDevice, IUSBControl<InputOutputPort, InputOutputPort>
     {
-        [JsonProperty(Required = Required.DisallowNull)]
+        [JsonProperty(Required = Required.Always)]
         public readonly string requestSetRoute;
 
-        [JsonProperty(Required = Required.DisallowNull)]
+        [JsonProperty(Required = Required.Always)]
         public readonly string responseSetRoute;
 
         [JsonConverter(typeof(IdentifiableCollectionToDictionaryConverter<InputOutputPort>))]
@@ -28,10 +28,7 @@ namespace MILAV.Device.USB
         {
             if (Connection.Connect())
             {
-                // RegEx formatting ($1)?
-                // C# formatting ({0})?
-                // or something else?
-                Connection.WriteASCII(requestSetRoute.Replace("$1", input.port.ToString()).Replace("$2", output.port.ToString()));
+                Connection.WriteASCII(string.Format(requestSetRoute, input.port, output.port));
 
                 return Regex.Match(Connection.ReadASCII(), responseSetRoute).Success;
             }

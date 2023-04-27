@@ -6,17 +6,14 @@ namespace MILAV.Device.TVTuner
 {
     public class CustomLightController : AbstractNetworkDevice, ILightControl
     {
-        [JsonProperty(Required = Required.DisallowNull)]
+        [JsonProperty(Required = Required.Always)]
         public readonly string requestSetLightLevel;
 
         public void SetLightLevel(float lightLevel)
         {
             if (Connection.Connect())
             {
-                // RegEx formatting ($1)?
-                // C# formatting ({0})?
-                // or something else?
-                Connection.WriteASCII(requestSetLightLevel.Replace("$1", lightLevel.ToString()));
+                Connection.WriteASCII(string.Format(requestSetLightLevel, lightLevel));
             }
         }
     }
