@@ -17,11 +17,9 @@ namespace MILAV.Device.USB
         public readonly string responseSetRoute;
 
         [JsonConverter(typeof(IdentifiableCollectionToDictionaryConverter<InputOutputPort>))]
-        [JsonProperty(Required = Required.DisallowNull)]
         public Dictionary<string, InputOutputPort> Inputs { get; init; }
 
         [JsonConverter(typeof(IdentifiableCollectionToDictionaryConverter<InputOutputPort>))]
-        [JsonProperty(Required = Required.DisallowNull)]
         public Dictionary<string, InputOutputPort> Outputs { get; init; }
 
         Dictionary<InputOutputPort, InputOutputPort> IRouteControl<InputOutputPort, InputOutputPort>.Routes { get; } = new Dictionary<InputOutputPort, InputOutputPort>();

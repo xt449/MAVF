@@ -11,11 +11,9 @@ namespace MILAV.Device.NVX
         public string Id { get; init; }
 
         [JsonConverter(typeof(IdentifiableCollectionToDictionaryConverter<NVXTransmitter>))]
-        [JsonProperty(Required = Required.DisallowNull)]
         public Dictionary<string, NVXTransmitter> Inputs { get; init; }
 
         [JsonConverter(typeof(IdentifiableCollectionToDictionaryConverter<NVXReceiver>))]
-        [JsonProperty(Required = Required.DisallowNull)]
         public Dictionary<string, NVXReceiver> Outputs { get; init; }
 
         Dictionary<NVXReceiver, NVXTransmitter> IRouteControl<NVXTransmitter, NVXReceiver>.Routes { get; } = new Dictionary<NVXReceiver, NVXTransmitter>();
