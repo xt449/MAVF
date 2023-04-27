@@ -13,6 +13,8 @@ namespace MILAV.Device.USB
         [JsonProperty(Required = Required.DisallowNull)]
         public readonly string requestTurnOnPower;
 
+        public Dictionary<string, int> Ports { get; init; }
+
         public void TurnPowerOff(int port)
         {
             if (Connection.Connect())
