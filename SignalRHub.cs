@@ -10,166 +10,166 @@ using MILAV.API.Layout;
 
 namespace MILAV
 {
-    public class SignalRHub : Hub, IServerAPI
-    {
-        protected readonly Controller controller;
+	public class SignalRHub : Hub, IServerAPI
+	{
+		protected readonly Controller controller;
 
-        public SignalRHub(Controller controller)
-        {
-            this.controller = controller;
-        }
+		public SignalRHub(Controller controller)
+		{
+			this.controller = controller;
+		}
 
-        // Devices
+		// Devices
 
-        public IEnumerable<IDevice> GetDevices()
-        {
-            return controller.GetDevices().Values;
-        }
+		public IEnumerable<IDevice> GetDevices()
+		{
+			return controller.GetDevices().Values;
+		}
 
-        // Device
+		// Device
 
-        public IDevice? GetDeviceById(string deviceId)
-        {
-            return controller.GetDeviceById(deviceId);
-        }
+		public IDevice? GetDeviceById(string deviceId)
+		{
+			return controller.GetDeviceById(deviceId);
+		}
 
-        // Mode
+		// Mode
 
-        public string GetMode()
-        {
-            return controller.GetMode();
-        }
+		public string GetMode()
+		{
+			return controller.GetMode();
+		}
 
-        public async void SetMode(string mode)
-        {
-            controller.SetMode(mode);
-            await Clients.All.SendAsync("AckSetMode", mode);
-        }
+		public async void SetMode(string mode)
+		{
+			controller.SetMode(mode);
+			await Clients.All.SendAsync("AckSetMode", mode);
+		}
 
-        public async void ResetMode()
-        {
-            var mode = controller.GetDefaultMode();
-            controller.SetMode(mode);
-            await Clients.All.SendAsync("AckSetMode", mode);
-        }
+		public async void ResetMode()
+		{
+			var mode = controller.GetDefaultMode();
+			controller.SetMode(mode);
+			await Clients.All.SendAsync("AckSetMode", mode);
+		}
 
-        // Routing
+		// Routing
 
-        public IEnumerable<IInputOutput>? GetDeviceInputsById(string deviceId)
-        {
-            if (controller.GetDeviceById(deviceId) is IRouteControl<IInputOutput, IInputOutput> device)
-            {
-                return device.Inputs.Values;
-            }
+		public IEnumerable<IInputOutput>? GetDeviceInputsById(string deviceId)
+		{
+			if (controller.GetDeviceById(deviceId) is IRouteControl<IInputOutput, IInputOutput> device)
+			{
+				return device.Inputs.Values;
+			}
 
-            return null;
-        }
+			return null;
+		}
 
-        public IEnumerable<IInputOutput>? GetDeviceOutputsById(string deviceId)
-        {
-            if (controller.GetDeviceById(deviceId) is IRouteControl<IInputOutput, IInputOutput> device)
-            {
-                return device.Outputs.Values;
-            }
+		public IEnumerable<IInputOutput>? GetDeviceOutputsById(string deviceId)
+		{
+			if (controller.GetDeviceById(deviceId) is IRouteControl<IInputOutput, IInputOutput> device)
+			{
+				return device.Outputs.Values;
+			}
 
-            return null;
-        }
+			return null;
+		}
 
-        public bool TrySetRoute(string deviceId, IInputOutput input, IInputOutput output)
-        {
-            var clientIp = Context.Features.Get<IHttpConnectionFeature>().RemoteIpAddress.ToString();
-            var user = controller.GetUserByIp(clientIp);
-            if (user == null || !user.CanRouteInput(input) || !user.CanRouteOutput(output))
-            {
-                return false;
-            }
+		public bool TrySetRoute(string deviceId, IInputOutput input, IInputOutput output)
+		{
+			var clientIp = Context.Features.Get<IHttpConnectionFeature>().RemoteIpAddress.ToString();
+			var user = controller.GetUserByIp(clientIp);
+			if (user == null || !user.CanRouteInput(input) || !user.CanRouteOutput(output))
+			{
+				return false;
+			}
 
-            if (controller.GetDeviceById(deviceId) is IRouteControl<IInputOutput, IInputOutput> device)
-            {
-                return device.Route(input, output);
-            }
+			if (controller.GetDeviceById(deviceId) is IRouteControl<IInputOutput, IInputOutput> device)
+			{
+				return device.Route(input, output);
+			}
 
-            return false;
-        }
+			return false;
+		}
 
-        public IInputOutput? GetRoute(string deviceId, IInputOutput output)
-        {
-            if (controller.GetDeviceById(deviceId) is IRouteControl<IInputOutput, IInputOutput> device)
-            {
-                return device.GetRoute(output);
-            }
+		public IInputOutput? GetRoute(string deviceId, IInputOutput output)
+		{
+			if (controller.GetDeviceById(deviceId) is IRouteControl<IInputOutput, IInputOutput> device)
+			{
+				return device.GetRoute(output);
+			}
 
-            return null;
-        }
+			return null;
+		}
 
-        // Layout
+		// Layout
 
-        public bool TrySetLayout(string deviceId, ILayout layout)
-        {
-            if (controller.GetDeviceById(deviceId) is ILayoutControl device)
-            {
-                device.SetLayout(layout);
-                return true;
-            }
+		public bool TrySetLayout(string deviceId, ILayout layout)
+		{
+			if (controller.GetDeviceById(deviceId) is ILayoutControl device)
+			{
+				device.SetLayout(layout);
+				return true;
+			}
 
-            return false;
-        }
+			return false;
+		}
 
-        public ILayout? GetLayout(string deviceId)
-        {
-            if (controller.GetDeviceById(deviceId) is ILayoutControl device)
-            {
-                return device.GetLayout();
-            }
+		public ILayout? GetLayout(string deviceId)
+		{
+			if (controller.GetDeviceById(deviceId) is ILayoutControl device)
+			{
+				return device.GetLayout();
+			}
 
-            return null;
-        }
+			return null;
+		}
 
-        // TVTuner
+		// TVTuner
 
-        public bool TrySetChannel(string deviceId, string channel)
-        {
-            if (controller.GetDeviceById(deviceId) is IChannelControl device)
-            {
-                device.SetChannel(channel);
-                return true;
-            }
+		public bool TrySetChannel(string deviceId, string channel)
+		{
+			if (controller.GetDeviceById(deviceId) is IChannelControl device)
+			{
+				device.SetChannel(channel);
+				return true;
+			}
 
-            return false;
-        }
+			return false;
+		}
 
-        public string? GetChannel(string deviceId)
-        {
-            if (controller.GetDeviceById(deviceId) is IChannelControl device)
-            {
-                return device.GetChannel();
-            }
+		public string? GetChannel(string deviceId)
+		{
+			if (controller.GetDeviceById(deviceId) is IChannelControl device)
+			{
+				return device.GetChannel();
+			}
 
-            return null;
-        }
+			return null;
+		}
 
-        // PDU
+		// PDU
 
-        public bool TryTurnPowerOn(string deviceId, int port)
-        {
-            if (controller.GetDeviceById(deviceId) is IPDUControl device)
-            {
-                device.TurnPowerOn(port);
-                return true;
-            }
+		public bool TryTurnPowerOn(string deviceId, int port)
+		{
+			if (controller.GetDeviceById(deviceId) is IPDUControl device)
+			{
+				device.TurnPowerOn(port);
+				return true;
+			}
 
-            return false;
-        }
+			return false;
+		}
 
-        public bool TryTurnPowerOff(string deviceId, int port)
-        {
-            if (controller.GetDeviceById(deviceId) is IPDUControl device)
-            {
-                device.TurnPowerOff(port);
-                return true;
-            }
+		public bool TryTurnPowerOff(string deviceId, int port)
+		{
+			if (controller.GetDeviceById(deviceId) is IPDUControl device)
+			{
+				device.TurnPowerOff(port);
+				return true;
+			}
 
-            return false;
-        }
-    }
+			return false;
+		}
+	}
 }

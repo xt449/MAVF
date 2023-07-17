@@ -4,17 +4,17 @@ using Newtonsoft.Json;
 
 namespace MILAV.Device.TVTuner
 {
-    public class CustomLightController : AbstractNetworkDevice, ILightControl
-    {
-        [JsonProperty(Required = Required.Always)]
-        public readonly string requestSetLightLevel;
+	public class CustomLightController : AbstractNetworkDevice, ILightControl
+	{
+		[JsonProperty(Required = Required.Always)]
+		public readonly string requestSetLightLevel;
 
-        public void SetLightLevel(float lightLevel)
-        {
-            if (Connection.Connect())
-            {
-                Connection.WriteASCII(string.Format(requestSetLightLevel, lightLevel));
-            }
-        }
-    }
+		public void SetLightLevel(float lightLevel)
+		{
+			if (Connection.Connect())
+			{
+				Connection.WriteASCII(string.Format(requestSetLightLevel, lightLevel));
+			}
+		}
+	}
 }

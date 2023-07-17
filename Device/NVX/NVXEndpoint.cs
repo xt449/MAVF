@@ -5,42 +5,42 @@ using System.Text;
 
 namespace MILAV.Device.NVX
 {
-    public abstract class NVXEndpoint : InputOutputPort
-    {
-        [JsonProperty(Required = Required.Always)]
-        public readonly string ip;
+	public abstract class NVXEndpoint : InputOutputPort
+	{
+		[JsonProperty(Required = Required.Always)]
+		public readonly string ip;
 
-        [JsonProperty(Required = Required.Always)]
-        public readonly string username;
+		[JsonProperty(Required = Required.Always)]
+		public readonly string username;
 
-        [JsonProperty(Required = Required.Always)]
-        public readonly string password;
+		[JsonProperty(Required = Required.Always)]
+		public readonly string password;
 
-        protected readonly HttpClient client;
+		protected readonly HttpClient client;
 
-        public NVXEndpoint()
-        {
-            var clientHandler = new HttpClientHandler();
-            clientHandler.CookieContainer = new CookieContainer();
-            clientHandler.UseCookies = true;
-            client = new HttpClient(clientHandler);
-            client.BaseAddress = new Uri($"https://{ip}");
+		public NVXEndpoint()
+		{
+			var clientHandler = new HttpClientHandler();
+			clientHandler.CookieContainer = new CookieContainer();
+			clientHandler.UseCookies = true;
+			client = new HttpClient(clientHandler);
+			client.BaseAddress = new Uri($"https://{ip}");
 
-            if (!Authenticate().Result)
-            {
-                throw new Exception($"NVXEndpoint failed authentication @ {client.BaseAddress}");
-            }
-        }
+			if (!Authenticate().Result)
+			{
+				throw new Exception($"NVXEndpoint failed authentication @ {client.BaseAddress}");
+			}
+		}
 
-        protected async Task<bool> Authenticate()
-        {
-            // No need to GET the userlogin
-            //await client.GetAsync("userlogin.html");
-            var response = await client.PostAsync("/userlogin.html", new StringContent($"login={username}&&passwd={password}", Encoding.UTF8, "text/plain"));
-            return response?.IsSuccessStatusCode ?? false;
-        }
+		protected async Task<bool> Authenticate()
+		{
+			// No need to GET the userlogin
+			//await client.GetAsync("userlogin.html");
+			var response = await client.PostAsync("/userlogin.html", new StringContent($"login={username}&&passwd={password}", Encoding.UTF8, "text/plain"));
+			return response?.IsSuccessStatusCode ?? false;
+		}
 
-        /*private async Task<string> GetStreamLocation()
+		/*private async Task<string> GetStreamLocation()
         {
             var response = await client.GetAsync($"/Device/StreamTransmit/Streams/{port - 1}/StreamLocation");
             var body = await response.Content.ReadAsStringAsync();
@@ -55,5 +55,5 @@ namespace MILAV.Device.NVX
 
             return response.IsSuccessStatusCode;
         }*/
-    }
+	}
 }
