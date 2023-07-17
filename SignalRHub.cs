@@ -33,24 +33,24 @@ namespace MILAV
             return controller.GetDeviceById(deviceId);
         }
 
-        // ControlState
+        // Mode
 
-        public ControlState GetControlState()
+        public string GetMode()
         {
-            return controller.GetControlState();
+            return controller.GetMode();
         }
 
-        public async void SetControlState(string state)
+        public async void SetMode(string mode)
         {
-            controller.SetControlState(state);
-            await Clients.All.SendAsync("AckSetControlState", state);
+            controller.SetMode(mode);
+            await Clients.All.SendAsync("AckSetMode", mode);
         }
 
-        public async void ResetControlState()
+        public async void ResetMode()
         {
-            var state = controller.GetDefaultControlState();
-            controller.SetControlState(state);
-            await Clients.All.SendAsync("AckSetControlState", state);
+            var mode = controller.GetDefaultMode();
+            controller.SetMode(mode);
+            await Clients.All.SendAsync("AckSetMode", mode);
         }
 
         // Routing

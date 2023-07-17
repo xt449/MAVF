@@ -10,7 +10,7 @@ namespace MILAV
 
         private Configuration configuration;
         private readonly User masterUser;
-        private ControlState controlState;
+        private string mode;
 
         public Controller()
         {
@@ -19,10 +19,15 @@ namespace MILAV
             // Validate again
             if (configuration == null) throw new Exception("configuration is null");
 
-            masterUser = configuration.users[configuration.masterUser] ?? throw new Exception("Invalid master user id");
+            masterUser = configuration.users[configuration.masterUserId] ?? throw new Exception("Invalid master user id");
 
-            controlState = configuration.states[configuration.defaultState] ?? throw new Exception("Invalid default control state id");
-            UpdateUserControlStates();
+            if (!configuration.modes.Contains(configuration.defaultModeId))
+            {
+                throw new Exception("Invalid default mode id");
+            }
+            mode = configuration.defaultModeId;
+
+			UpdateUserModes();
         }
 
         public void LoadConfiguration()
@@ -46,7 +51,7 @@ namespace MILAV
             {
                 Console.WriteLine("creating default config file");
 
-                configuration = new Configuration("");
+                this.configuration = new Configuration();
 
                 using var writer = new StreamWriter("./config.json", false);
                 json.Serialize(writer, configuration);
@@ -55,26 +60,31 @@ namespace MILAV
 
         public User GetMasterUser() => masterUser;
 
-        public string GetDefaultControlState() => configuration.defaultState;
+        public string GetDefaultMode() => configuration.defaultModeId;
 
-        public ControlState GetControlState() => controlState;
+        public string GetMode() => mode;
 
-        public void SetControlState(string nextState)
+        public void SetMode(string nextMode)
         {
-            if (controlState.Id == nextState)
+            if (mode == nextMode)
             {
                 return;
             }
 
-            controlState = configuration.states[nextState] ?? throw new Exception("Invalid control state id");
-            UpdateUserControlStates();
+			if (!configuration.modes.Contains(nextMode))
+			{
+				throw new Exception("Invalid mode id");
+			}
+            mode = nextMode;
+
+			UpdateUserModes();
         }
 
-        private void UpdateUserControlStates()
+        private void UpdateUserModes()
         {
             foreach (var user in configuration.users.Values)
             {
-                user.SetControlGroups(controlState.controlling[user.Id] ?? new string[0]);
+                user.UpdateMode(mode);
             }
         }
 
