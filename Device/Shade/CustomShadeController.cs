@@ -1,8 +1,8 @@
-﻿using MILAV.API.Device;
-using MILAV.API.Device.Shade;
+﻿using MAVF.API.Device;
+using MAVF.API.Device.Shade;
 using Newtonsoft.Json;
 
-namespace MILAV.Device.TVTuner
+namespace MAVF.Device.TVTuner
 {
 	[Device("customtshade")]
 	public class CustomShadeController : AbstractNetworkDevice, IShadeControl

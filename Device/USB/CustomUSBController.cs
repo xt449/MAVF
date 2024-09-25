@@ -1,11 +1,11 @@
-﻿using MILAV.API;
-using MILAV.API.Device;
-using MILAV.API.Device.Routing;
-using MILAV.API.Device.USB;
+﻿using MAVF.API;
+using MAVF.API.Device;
+using MAVF.API.Device.Routing;
+using MAVF.API.Device.USB;
 using Newtonsoft.Json;
 using System.Text.RegularExpressions;
 
-namespace MILAV.Device.USB
+namespace MAVF.Device.USB
 {
 	[Device("customusb")]
 	public class CustomUSBController : AbstractNetworkDevice, IUSBControl<InputOutputPort, InputOutputPort>

@@ -1,8 +1,8 @@
-﻿using MILAV.API.Device;
-using MILAV.API.Device.Light;
+﻿using MAVF.API.Device;
+using MAVF.API.Device.Light;
 using Newtonsoft.Json;
 
-namespace MILAV.Device.TVTuner
+namespace MAVF.Device.TVTuner
 {
 	public class CustomLightController : AbstractNetworkDevice, ILightControl
 	{

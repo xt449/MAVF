@@ -1,14 +1,14 @@
 ﻿using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.SignalR;
-using MILAV.API;
-using MILAV.API.Device;
-using MILAV.API.Device.PDU;
-using MILAV.API.Device.Routing;
-using MILAV.API.Device.TVTuner;
-using MILAV.API.Device.Video;
-using MILAV.API.Layout;
+using MAVF.API;
+using MAVF.API.Device;
+using MAVF.API.Device.PDU;
+using MAVF.API.Device.Routing;
+using MAVF.API.Device.TVTuner;
+using MAVF.API.Device.Video;
+using MAVF.API.Layout;
 
-namespace MILAV
+namespace MAVF
 {
 	public class SignalRHub : Hub, IServerAPI
 	{

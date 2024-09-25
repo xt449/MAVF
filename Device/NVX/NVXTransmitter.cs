@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json.Linq;
 
-namespace MILAV.Device.NVX
+namespace MAVF.Device.NVX
 {
 	public class NVXTransmitter : NVXEndpoint
 	{

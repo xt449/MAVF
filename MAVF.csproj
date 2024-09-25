@@ -2,13 +2,13 @@
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
-	<RootNamespace>MILAV</RootNamespace>
+	<RootNamespace>MAVF</RootNamespace>
 	<ImplicitUsings>enable</ImplicitUsings>
 	<Nullable>enable</Nullable>
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\MILAV API\MILAV API.csproj" />
+    <ProjectReference Include="..\MAVF API\MAVF API.csproj" />
   </ItemGroup>
 
 </Project>

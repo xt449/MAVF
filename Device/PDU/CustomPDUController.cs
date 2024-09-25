@@ -1,8 +1,8 @@
-﻿using MILAV.API.Device;
-using MILAV.API.Device.PDU;
+﻿using MAVF.API.Device;
+using MAVF.API.Device.PDU;
 using Newtonsoft.Json;
 
-namespace MILAV.Device.USB
+namespace MAVF.Device.USB
 {
 	[Device("custompdu")]
 	public class CustomPDUController : AbstractNetworkDevice, IPDUControl

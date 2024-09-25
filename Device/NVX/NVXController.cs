@@ -1,9 +1,9 @@
-﻿using MILAV.API;
-using MILAV.API.Device;
-using MILAV.API.Device.Routing;
+﻿using MAVF.API;
+using MAVF.API.Device;
+using MAVF.API.Device.Routing;
 using Newtonsoft.Json;
 
-namespace MILAV.Device.NVX
+namespace MAVF.Device.NVX
 {
 	[Device("nvx")]
 	public class NVXController : IDevice, IRouteControl<NVXTransmitter, NVXReceiver>

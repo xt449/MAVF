@@ -1,6 +1,6 @@
 ﻿using System.Text;
 
-namespace MILAV.Device.NVX
+namespace MAVF.Device.NVX
 {
 	public class NVXReceiver : NVXEndpoint
 	{

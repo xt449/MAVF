@@ -9,7 +9,7 @@
     }
   },
   "profiles": {
-    "MILAV": {
+    "MAVF": {
       "commandName": "Project",
       "workingDirectory": "./bin/Debug",
       "dotnetRunMessages": true,

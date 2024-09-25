@@ -1,8 +1,8 @@
-﻿using MILAV.API;
-using MILAV.API.Device;
+﻿using MAVF.API;
+using MAVF.API.Device;
 using Newtonsoft.Json;
 
-namespace MILAV
+namespace MAVF
 {
 	public class Controller
 	{

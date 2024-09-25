@@ -1,9 +1,9 @@
-﻿using MILAV.API.Device.Routing;
+﻿using MAVF.API.Device.Routing;
 using Newtonsoft.Json;
 using System.Net;
 using System.Text;
 
-namespace MILAV.Device.NVX
+namespace MAVF.Device.NVX
 {
 	public abstract class NVXEndpoint : InputOutputPort
 	{

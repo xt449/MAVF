@@ -1,9 +1,9 @@
-﻿using MILAV.API.Device;
-using MILAV.API.Device.TVTuner;
+﻿using MAVF.API.Device;
+using MAVF.API.Device.TVTuner;
 using Newtonsoft.Json;
 using System.Text.RegularExpressions;
 
-namespace MILAV.Device.TVTuner
+namespace MAVF.Device.TVTuner
 {
 	[Device("customtvtuner")]
 	public class CustomChannelController : AbstractNetworkDevice, IChannelControl
