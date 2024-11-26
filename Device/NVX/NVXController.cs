@@ -10,10 +10,10 @@ namespace MAVF.Device.NVX
 	{
 		public string Id { get; init; }
 
-		[JsonConverter(typeof(IdentifiableCollectionToDictionaryConverter<NVXTransmitter>))]
+		[JsonConverter(typeof(JArrayDictionaryConverter<NVXTransmitter>))]
 		public Dictionary<string, NVXTransmitter> Inputs { get; init; }
 
-		[JsonConverter(typeof(IdentifiableCollectionToDictionaryConverter<NVXReceiver>))]
+		[JsonConverter(typeof(JArrayDictionaryConverter<NVXReceiver>))]
 		public Dictionary<string, NVXReceiver> Outputs { get; init; }
 
 		Dictionary<NVXReceiver, NVXTransmitter> IRouteControl<NVXTransmitter, NVXReceiver>.Routes { get; } = new Dictionary<NVXReceiver, NVXTransmitter>();

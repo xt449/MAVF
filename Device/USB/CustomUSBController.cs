@@ -16,10 +16,10 @@ namespace MAVF.Device.USB
 		[JsonProperty(Required = Required.Always)]
 		public readonly string responseSetRoute;
 
-		[JsonConverter(typeof(IdentifiableCollectionToDictionaryConverter<InputOutputPort>))]
+		[JsonConverter(typeof(JArrayDictionaryConverter<InputOutputPort>))]
 		public Dictionary<string, InputOutputPort> Inputs { get; init; }
 
-		[JsonConverter(typeof(IdentifiableCollectionToDictionaryConverter<InputOutputPort>))]
+		[JsonConverter(typeof(JArrayDictionaryConverter<InputOutputPort>))]
 		public Dictionary<string, InputOutputPort> Outputs { get; init; }
 
 		Dictionary<InputOutputPort, InputOutputPort> IRouteControl<InputOutputPort, InputOutputPort>.Routes { get; } = new Dictionary<InputOutputPort, InputOutputPort>();

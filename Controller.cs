@@ -9,7 +9,7 @@ namespace MAVF
 		private readonly JsonSerializer json = new JsonSerializer();
 
 		private Configuration configuration;
-		private readonly User masterUser;
+		private readonly UserInterface masterUser;
 		private string mode;
 
 		public Controller()
@@ -58,7 +58,7 @@ namespace MAVF
 			}
 		}
 
-		public User GetMasterUser() => masterUser;
+		public UserInterface GetMasterUser() => masterUser;
 
 		public string GetDefaultMode() => configuration.defaultModeId;
 
@@ -98,7 +98,7 @@ namespace MAVF
 			return configuration.devices[id];
 		}
 
-		public User? GetUserByIp(string ip)
+		public UserInterface? GetUserByIp(string ip)
 		{
 			return configuration.users[ip];
 		}

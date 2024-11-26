@@ -16,10 +16,10 @@ namespace MAVF.Device.Video.VideoSwitcher
 		[JsonProperty(Required = Required.Always)]
 		public readonly string responseSetRoute;
 
-		[JsonConverter(typeof(IdentifiableCollectionToDictionaryConverter<InputOutputPort>))]
+		[JsonConverter(typeof(JArrayDictionaryConverter<InputOutputPort>))]
 		public Dictionary<string, InputOutputPort> Inputs { get; init; }
 
-		[JsonConverter(typeof(IdentifiableCollectionToDictionaryConverter<InputOutputPort>))]
+		[JsonConverter(typeof(JArrayDictionaryConverter<InputOutputPort>))]
 		public Dictionary<string, InputOutputPort> Outputs { get; init; }
 
 		public Dictionary<InputOutputPort, InputOutputPort> Routes { get; } = new Dictionary<InputOutputPort, InputOutputPort>();
