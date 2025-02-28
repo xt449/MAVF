@@ -8,7 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\MAVF API\MAVF API.csproj" />
+    <ProjectReference Include="..\MAVF-API\MAVF-API.csproj" />
   </ItemGroup>
 
 </Project>
