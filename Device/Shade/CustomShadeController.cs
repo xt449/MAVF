@@ -1,19 +1,19 @@
-﻿using MAVF.API.Device;
-using MAVF.API.Device.Shade;
-using Newtonsoft.Json;
+﻿using MAVF.API.Device.Driver;
+using MAVF.API.Device.Driver.Shade;
+using System.Text.Json.Serialization;
 
 namespace MAVF.Device.TVTuner
 {
-	[Device("customtshade")]
-	public class CustomShadeController : AbstractNetworkDevice, IShadeControl
+	[Driver("customtshade")]
+	public class CustomShadeController : AbstractNetworkDriver, IShadeControl
 	{
-		[JsonProperty(Required = Required.Always)]
+		[JsonInclude]
 		public readonly string requestShadesClose;
 
-		[JsonProperty(Required = Required.Always)]
+		[JsonInclude]
 		public readonly string responseShadesHalf;
 
-		[JsonProperty(Required = Required.Always)]
+		[JsonInclude]
 		public readonly string requestShadesOpen;
 
 		public void ShadesClose()

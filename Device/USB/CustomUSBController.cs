@@ -1,19 +1,19 @@
 ﻿using MAVF.API;
-using MAVF.API.Device;
-using MAVF.API.Device.Routing;
-using MAVF.API.Device.USB;
-using Newtonsoft.Json;
+using MAVF.API.Device.Driver;
+using MAVF.API.Device.Driver.Routing;
+using MAVF.API.Device.Driver.USB;
+using System.Text.Json.Serialization;
 using System.Text.RegularExpressions;
 
 namespace MAVF.Device.USB
 {
-	[Device("customusb")]
-	public class CustomUSBController : AbstractNetworkDevice, IUSBControl<InputOutputPort, InputOutputPort>
+	[Driver("customusb")]
+	public class CustomUSBController : AbstractNetworkDriver, IUSBControl<InputOutputPort, InputOutputPort>
 	{
-		[JsonProperty(Required = Required.Always)]
+		[JsonInclude]
 		public readonly string requestSetRoute;
 
-		[JsonProperty(Required = Required.Always)]
+		[JsonInclude]
 		public readonly string responseSetRoute;
 
 		[JsonConverter(typeof(JArrayDictionaryConverter<InputOutputPort>))]
@@ -28,7 +28,7 @@ namespace MAVF.Device.USB
 		{
 			if (Connection.Connect())
 			{
-				Connection.WriteASCII(string.Format(requestSetRoute, input.port, output.port));
+				Connection.WriteASCII(string.Format(requestSetRoute, input.Port, output.Port));
 
 				return Regex.Match(Connection.ReadASCII(), responseSetRoute).Success;
 			}

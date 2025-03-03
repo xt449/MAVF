@@ -1,33 +1,33 @@
-﻿using MAVF.API.Device;
-using MAVF.API.Device.Camera;
-using Newtonsoft.Json;
+﻿using MAVF.API.Device.Driver;
+using MAVF.API.Device.Driver.Camera;
+using System.Text.Json.Serialization;
 
 namespace MAVF.Device.TVTuner
 {
-	public class CustomCameraController : AbstractNetworkDevice, ICameraControl
+	public class CustomCameraController : AbstractNetworkDriver, ICameraControl
 	{
-		[JsonProperty(Required = Required.Always)]
+		[JsonInclude]
 		public readonly string requestPanUp;
 
-		[JsonProperty(Required = Required.Always)]
+		[JsonInclude]
 		public readonly string requestPanDown;
 
-		[JsonProperty(Required = Required.Always)]
+		[JsonInclude]
 		public readonly string requestPanLeft;
 
-		[JsonProperty(Required = Required.Always)]
+		[JsonInclude]
 		public readonly string requestPanRight;
 
-		[JsonProperty(Required = Required.Always)]
+		[JsonInclude]
 		public readonly string requestZoomIn;
 
-		[JsonProperty(Required = Required.Always)]
+		[JsonInclude]
 		public readonly string requestZoomOut;
 
-		[JsonProperty(Required = Required.Always)]
+		[JsonInclude]
 		public readonly string requestOpenLens;
 
-		[JsonProperty(Required = Required.Always)]
+		[JsonInclude]
 		public readonly string requestCloseLens;
 
 		public void PanUp()

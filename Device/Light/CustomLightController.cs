@@ -1,12 +1,12 @@
-﻿using MAVF.API.Device;
-using MAVF.API.Device.Light;
-using Newtonsoft.Json;
+﻿using MAVF.API.Device.Driver;
+using MAVF.API.Device.Driver.Light;
+using System.Text.Json.Serialization;
 
 namespace MAVF.Device.TVTuner
 {
-	public class CustomLightController : AbstractNetworkDevice, ILightControl
+	public class CustomLightController : AbstractNetworkDriver, ILightControl
 	{
-		[JsonProperty(Required = Required.Always)]
+		[JsonInclude]
 		public readonly string requestSetLightLevel;
 
 		public void SetLightLevel(float lightLevel)

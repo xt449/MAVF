@@ -1,12 +1,12 @@
 ﻿using MAVF.API;
-using MAVF.API.Device;
-using MAVF.API.Device.Routing;
-using Newtonsoft.Json;
+using MAVF.API.Device.Driver;
+using MAVF.API.Device.Driver.Routing;
+using System.Text.Json.Serialization;
 
 namespace MAVF.Device.NVX
 {
-	[Device("nvx")]
-	public class NVXController : IDevice, IRouteControl<NVXTransmitter, NVXReceiver>
+	[Driver("nvx")]
+	public class NVXController : IDriver, IRouteControl<NVXTransmitter, NVXReceiver>
 	{
 		public string Id { get; init; }
 
@@ -17,6 +17,8 @@ namespace MAVF.Device.NVX
 		public Dictionary<string, NVXReceiver> Outputs { get; init; }
 
 		Dictionary<NVXReceiver, NVXTransmitter> IRouteControl<NVXTransmitter, NVXReceiver>.Routes { get; } = new Dictionary<NVXReceiver, NVXTransmitter>();
+
+		public object Properties { get; init; }
 
 		public void Initialize()
 		{

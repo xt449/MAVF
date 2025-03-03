@@ -1,20 +1,20 @@
-﻿using MAVF.API.Device;
-using MAVF.API.Device.TVTuner;
-using Newtonsoft.Json;
+﻿using MAVF.API.Device.Driver;
+using MAVF.API.Device.Driver.TVTuner;
+using System.Text.Json.Serialization;
 using System.Text.RegularExpressions;
 
 namespace MAVF.Device.TVTuner
 {
-	[Device("customtvtuner")]
-	public class CustomChannelController : AbstractNetworkDevice, IChannelControl
+	[Driver("customtvtuner")]
+	public class CustomChannelController : AbstractNetworkDriver, IChannelControl
 	{
-		[JsonProperty(Required = Required.Always)]
+		[JsonInclude]
 		public readonly string requestGetChannel;
 
-		[JsonProperty(Required = Required.Always)]
+		[JsonInclude]
 		public readonly string responseGetChannel;
 
-		[JsonProperty(Required = Required.Always)]
+		[JsonInclude]
 		public readonly string requestSetChannel;
 
 		public string? GetChannel()

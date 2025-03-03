@@ -1,16 +1,16 @@
-﻿using MAVF.API.Device;
-using MAVF.API.Device.PDU;
-using Newtonsoft.Json;
+﻿using MAVF.API.Device.Driver;
+using MAVF.API.Device.Driver.PDU;
+using System.Text.Json.Serialization;
 
 namespace MAVF.Device.USB
 {
-	[Device("custompdu")]
-	public class CustomPDUController : AbstractNetworkDevice, IPDUControl
+	[Driver("custompdu")]
+	public class CustomPDUController : AbstractNetworkDriver, IPDUControl
 	{
-		[JsonProperty(Required = Required.Always)]
+		[JsonInclude]
 		public readonly string requestTurnOffPower;
 
-		[JsonProperty(Required = Required.Always)]
+		[JsonInclude]
 		public readonly string requestTurnOnPower;
 
 		public Dictionary<string, int> Ports { get; init; }

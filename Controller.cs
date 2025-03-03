@@ -1,12 +1,12 @@
 ﻿using MAVF.API;
-using MAVF.API.Device;
-using Newtonsoft.Json;
+using MAVF.API.Device.Driver;
+using System.Text.Json;
 
 namespace MAVF
 {
 	public class Controller
 	{
-		private readonly JsonSerializer json = new JsonSerializer();
+		private static readonly string configFilePath = "./config.json";
 
 		private Configuration configuration;
 		private readonly UserInterface masterUser;
@@ -19,28 +19,46 @@ namespace MAVF
 			// Validate again
 			if (configuration == null) throw new Exception("configuration is null");
 
-			masterUser = configuration.users[configuration.masterUserId] ?? throw new Exception("Invalid master user id");
+			masterUser = configuration.Users[configuration.MasterUserId] ?? throw new Exception("Invalid master user id");
 
-			if (!configuration.modes.Contains(configuration.defaultModeId))
+			if (!configuration.Modes.Contains(configuration.DefaultModeId))
 			{
 				throw new Exception("Invalid default mode id");
 			}
-			mode = configuration.defaultModeId;
+			mode = configuration.DefaultModeId;
 
 			UpdateUserModes();
 		}
 
 		public void LoadConfiguration()
 		{
-			if (File.Exists("./config.json"))
+			if (File.Exists(configFilePath))
 			{
-				Console.WriteLine("reading config file");
+				Console.WriteLine("Reading config file");
 
-				using var reader = new StreamReader("./config.json");
-				var configuration = (Configuration?)json.Deserialize(reader, typeof(Configuration));
+				var jsonString = File.ReadAllText(configFilePath);
+
+				try
+				{
+					var configuration = JsonSerializer.Deserialize<Configuration>(jsonString);
+
+					if (configuration == null)
+					{
+						throw new JsonException("Unable to deserialize JSON. Deserialization returned null.");
+					}
+
+					this.configuration = configuration;
+				}
+				catch (Exception e)
+				{
+					Console.WriteLine("Invalid configuration. See details:");
+					Console.WriteLine(e);
+
+					CreateDefaultConfiguration();
+				}
+
 				if (configuration != null)
 				{
-					this.configuration = configuration;
 				}
 				else
 				{
@@ -49,18 +67,49 @@ namespace MAVF
 			}
 			else
 			{
-				Console.WriteLine("creating default config file");
-
-				this.configuration = new Configuration();
-
-				using var writer = new StreamWriter("./config.json", false);
-				json.Serialize(writer, configuration);
+				CreateDefaultConfiguration();
 			}
+
+			// Write configuration to file
+			File.WriteAllText(configFilePath, JsonSerializer.Serialize(configuration));
+
+			Console.WriteLine(JsonSerializer.Serialize(configuration.Devices["example"].Driver.Properties));
+		}
+
+		private void CreateDefaultConfiguration()
+		{
+			Console.WriteLine("Creating default config file");
+
+			configuration = new Configuration()
+			{
+				MasterUserId = "172.16.0.11",
+				Users =
+				{
+					["172.16.0.11"] = new UserInterface()
+					{
+						Id = "172.16.0.11",
+						ModeGroups = []
+					}
+				},
+				Modes = ["mode0"],
+				DefaultModeId = "mode0",
+				Devices =
+				{
+					["example"] = new API.Device.Device()
+					{
+						Id = "example",
+						Driver = new TestDriver(new TestDriver.DriverProperties()
+						{
+							Example = 12
+						})
+					}
+				}
+			};
 		}
 
 		public UserInterface GetMasterUser() => masterUser;
 
-		public string GetDefaultMode() => configuration.defaultModeId;
+		public string GetDefaultMode() => configuration.DefaultModeId;
 
 		public string GetMode() => mode;
 
@@ -71,7 +120,7 @@ namespace MAVF
 				return;
 			}
 
-			if (!configuration.modes.Contains(nextMode))
+			if (!configuration.Modes.Contains(nextMode))
 			{
 				throw new Exception("Invalid mode id");
 			}
@@ -82,25 +131,25 @@ namespace MAVF
 
 		private void UpdateUserModes()
 		{
-			foreach (var user in configuration.users.Values)
+			foreach (var user in configuration.Users.Values)
 			{
 				user.UpdateMode(mode);
 			}
 		}
 
-		public Dictionary<string, IDevice> GetDevices()
+		public Dictionary<string, API.Device.Device> GetDevices()
 		{
-			return configuration.devices;
+			return configuration.Devices;
 		}
 
-		public IDevice? GetDeviceById(string id)
+		public API.Device.Device? GetDeviceById(string id)
 		{
-			return configuration.devices[id];
+			return configuration.Devices[id];
 		}
 
 		public UserInterface? GetUserByIp(string ip)
 		{
-			return configuration.users[ip];
+			return configuration.Users[ip];
 		}
 	}
 }
