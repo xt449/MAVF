@@ -1,5 +1,7 @@
 ﻿using MAVF.API;
+using MAVF.API.Connection;
 using MAVF.API.Device.Driver;
+using MAVF.Device.Light;
 using System.Text.Json;
 
 namespace MAVF
@@ -68,6 +70,25 @@ namespace MAVF
 			else
 			{
 				CreateDefaultConfiguration();
+			}
+
+			// Debug
+			if (!configuration.Devices.ContainsKey("light"))
+			{
+				configuration.Devices.Add("light",
+					new API.Device.Device()
+					{
+						Id = "light",
+						Driver = new CustomLightControlDriver(new CustomLightControlDriver.DriverProperties()
+						{
+							Ip = "abc.123",
+							Port = 79,
+							Protocol = Protocol.HTTP,
+							HttpRelativeAddress = "set?level=",
+							RequestSetLightLevel = "{0}"
+						})
+					}
+				);
 			}
 
 			// Write configuration to file

@@ -2,25 +2,21 @@
 using MAVF.API.Device.Driver.Shade;
 using System.Text.Json.Serialization;
 
-namespace MAVF.Device.TVTuner
+namespace MAVF.Device.Shade
 {
 	[Driver("customtshade")]
-	public class CustomShadeController : AbstractNetworkDriver, IShadeControl
+	public class CustomShadeController : AbstractCommunicationDriver<CustomShadeController.DriverProperties>, IShadeControl
 	{
-		[JsonInclude]
-		public readonly string requestShadesClose;
-
-		[JsonInclude]
-		public readonly string responseShadesHalf;
-
-		[JsonInclude]
-		public readonly string requestShadesOpen;
+		[JsonConstructor]
+		public CustomShadeController(DriverProperties properties) : base(properties)
+		{
+		}
 
 		public void ShadesClose()
 		{
 			if (Connection.Connect())
 			{
-				Connection.WriteASCII(requestShadesClose);
+				Connection.WriteASCII(Properties.RequestShadesClose);
 			}
 		}
 
@@ -28,7 +24,7 @@ namespace MAVF.Device.TVTuner
 		{
 			if (Connection.Connect())
 			{
-				Connection.WriteASCII(responseShadesHalf);
+				Connection.WriteASCII(Properties.ResponseShadesHalf);
 			}
 		}
 
@@ -36,8 +32,20 @@ namespace MAVF.Device.TVTuner
 		{
 			if (Connection.Connect())
 			{
-				Connection.WriteASCII(requestShadesOpen);
+				Connection.WriteASCII(Properties.RequestShadesOpen);
 			}
+		}
+
+		public record DriverProperties : CommunicationDriverProperties
+		{
+			[JsonPropertyName("requestShadesClose")]
+			public required string RequestShadesClose { get; init; }
+
+			[JsonPropertyName("responseShadesHalf")]
+			public required string ResponseShadesHalf { get; init; }
+
+			[JsonPropertyName("requestShadesOpen")]
+			public required string RequestShadesOpen { get; init; }
 		}
 	}
 }

@@ -5,64 +5,18 @@ using System.Text.RegularExpressions;
 
 namespace MAVF.Device.TVTuner
 {
-	public class CustomRemoteController : AbstractNetworkDriver, IRemoteControl
+	public class CustomRemoteController : AbstractCommunicationDriver<CustomRemoteController.DriverProperties>, IRemoteControl
 	{
-		[JsonInclude]
-		public readonly string requestSetPowerOn;
-
-		[JsonInclude]
-		public readonly string requestSetPowerOff;
-
-		[JsonInclude]
-		public readonly string requestArrowUp;
-
-		[JsonInclude]
-		public readonly string requestArrowDown;
-
-		[JsonInclude]
-		public readonly string requestArrowLeft;
-
-		[JsonInclude]
-		public readonly string requestArrowRight;
-
-		[JsonInclude]
-		public readonly string requestBack;
-
-		[JsonInclude]
-		public readonly string requestChannelDown;
-
-		[JsonInclude]
-		public readonly string requestChannelUp;
-
-		[JsonInclude]
-		public readonly string requestEnter;
-
-		[JsonInclude]
-		public readonly string requestExit;
-
-		[JsonInclude]
-		public readonly string requestGetPower;
-
-		[JsonInclude]
-		public readonly string responseGetPower;
-
-		[JsonInclude]
-		public readonly string requestGuide;
-
-		[JsonInclude]
-		public readonly string requestMenu;
-
-		[JsonInclude]
-		public readonly string requestVolumeDown;
-
-		[JsonInclude]
-		public readonly string requestVolumeUp;
+		[JsonConstructor]
+		public CustomRemoteController(DriverProperties properties) : base(properties)
+		{
+		}
 
 		public void SetPower(bool state)
 		{
 			if (Connection.Connect())
 			{
-				Connection.WriteASCII(state ? requestSetPowerOn : requestSetPowerOff);
+				Connection.WriteASCII(state ? Properties.RequestSetPowerOn : Properties.RequestSetPowerOff);
 			}
 		}
 
@@ -70,7 +24,7 @@ namespace MAVF.Device.TVTuner
 		{
 			if (Connection.Connect())
 			{
-				Connection.WriteASCII(requestArrowUp);
+				Connection.WriteASCII(Properties.RequestArrowUp);
 			}
 		}
 
@@ -78,7 +32,7 @@ namespace MAVF.Device.TVTuner
 		{
 			if (Connection.Connect())
 			{
-				Connection.WriteASCII(requestArrowDown);
+				Connection.WriteASCII(Properties.RequestArrowDown);
 			}
 		}
 
@@ -86,7 +40,7 @@ namespace MAVF.Device.TVTuner
 		{
 			if (Connection.Connect())
 			{
-				Connection.WriteASCII(requestArrowLeft);
+				Connection.WriteASCII(Properties.RequestArrowLeft);
 			}
 		}
 
@@ -94,7 +48,7 @@ namespace MAVF.Device.TVTuner
 		{
 			if (Connection.Connect())
 			{
-				Connection.WriteASCII(requestArrowRight);
+				Connection.WriteASCII(Properties.RequestArrowRight);
 			}
 		}
 
@@ -102,7 +56,7 @@ namespace MAVF.Device.TVTuner
 		{
 			if (Connection.Connect())
 			{
-				Connection.WriteASCII(requestBack);
+				Connection.WriteASCII(Properties.RequestBack);
 			}
 		}
 
@@ -110,7 +64,7 @@ namespace MAVF.Device.TVTuner
 		{
 			if (Connection.Connect())
 			{
-				Connection.WriteASCII(requestChannelDown);
+				Connection.WriteASCII(Properties.RequestChannelDown);
 			}
 		}
 
@@ -118,7 +72,7 @@ namespace MAVF.Device.TVTuner
 		{
 			if (Connection.Connect())
 			{
-				Connection.WriteASCII(requestChannelUp);
+				Connection.WriteASCII(Properties.RequestChannelUp);
 			}
 		}
 
@@ -126,7 +80,7 @@ namespace MAVF.Device.TVTuner
 		{
 			if (Connection.Connect())
 			{
-				Connection.WriteASCII(requestEnter);
+				Connection.WriteASCII(Properties.RequestEnter);
 			}
 		}
 
@@ -134,7 +88,7 @@ namespace MAVF.Device.TVTuner
 		{
 			if (Connection.Connect())
 			{
-				Connection.WriteASCII(requestExit);
+				Connection.WriteASCII(Properties.RequestExit);
 			}
 		}
 
@@ -142,9 +96,9 @@ namespace MAVF.Device.TVTuner
 		{
 			if (Connection.Connect())
 			{
-				Connection.WriteASCII(requestGetPower);
+				Connection.WriteASCII(Properties.RequestGetPower);
 
-				var match = Regex.Match(Connection.ReadASCII(), responseGetPower);
+				var match = Regex.Match(Connection.ReadASCII(), Properties.ResponseGetPower);
 				if (match.Success)
 				{
 					return bool.Parse(match.Value);
@@ -158,7 +112,7 @@ namespace MAVF.Device.TVTuner
 		{
 			if (Connection.Connect())
 			{
-				Connection.WriteASCII(requestGuide);
+				Connection.WriteASCII(Properties.RequestGuide);
 			}
 		}
 
@@ -166,7 +120,7 @@ namespace MAVF.Device.TVTuner
 		{
 			if (Connection.Connect())
 			{
-				Connection.WriteASCII(requestMenu);
+				Connection.WriteASCII(Properties.RequestMenu);
 			}
 		}
 
@@ -174,7 +128,7 @@ namespace MAVF.Device.TVTuner
 		{
 			if (Connection.Connect())
 			{
-				Connection.WriteASCII(requestVolumeDown);
+				Connection.WriteASCII(Properties.RequestVolumeDown);
 			}
 		}
 
@@ -182,8 +136,62 @@ namespace MAVF.Device.TVTuner
 		{
 			if (Connection.Connect())
 			{
-				Connection.WriteASCII(requestVolumeUp);
+				Connection.WriteASCII(Properties.RequestVolumeUp);
 			}
+		}
+
+		public record DriverProperties : CommunicationDriverProperties
+		{
+			[JsonPropertyName("requestSetPowerOn")]
+			public required string RequestSetPowerOn { get; init; }
+
+			[JsonPropertyName("requestSetPowerOff")]
+			public required string RequestSetPowerOff { get; init; }
+
+			[JsonPropertyName("requestArrowUp")]
+			public required string RequestArrowUp { get; init; }
+
+			[JsonPropertyName("requestArrowDown")]
+			public required string RequestArrowDown { get; init; }
+
+			[JsonPropertyName("requestArrowLeft")]
+			public required string RequestArrowLeft { get; init; }
+
+			[JsonPropertyName("requestArrowRight")]
+			public required string RequestArrowRight { get; init; }
+
+			[JsonPropertyName("requestBack")]
+			public required string RequestBack { get; init; }
+
+			[JsonPropertyName("requestChannelDown")]
+			public required string RequestChannelDown { get; init; }
+
+			[JsonPropertyName("requestChannelUp")]
+			public required string RequestChannelUp { get; init; }
+
+			[JsonPropertyName("requestEnter")]
+			public required string RequestEnter { get; init; }
+
+			[JsonPropertyName("requestExit")]
+			public required string RequestExit { get; init; }
+
+			[JsonPropertyName("requestGetPower")]
+			public required string RequestGetPower { get; init; }
+
+			[JsonPropertyName("responseGetPower")]
+			public required string ResponseGetPower { get; init; }
+
+			[JsonPropertyName("requestGuide")]
+			public required string RequestGuide { get; init; }
+
+			[JsonPropertyName("requestMenu")]
+			public required string RequestMenu { get; init; }
+
+			[JsonPropertyName("requestVolumeDown")]
+			public required string RequestVolumeDown { get; init; }
+
+			[JsonPropertyName("requestVolumeUp")]
+			public required string RequestVolumeUp { get; init; }
 		}
 	}
 }

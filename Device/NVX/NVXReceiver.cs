@@ -2,7 +2,7 @@
 
 namespace MAVF.Device.NVX
 {
-	public class NVXReceiver : NVXEndpoint
+	public record NVXReceiver : NVXEndpoint
 	{
 		public async Task<bool> Route(NVXTransmitter input)
 		{

@@ -5,7 +5,7 @@ using System.Text.Json.Serialization;
 
 namespace MAVF.Device.NVX
 {
-	public abstract class NVXEndpoint : InputOutputPort
+	public abstract record NVXEndpoint : InputOutputPort
 	{
 		[JsonInclude]
 		public readonly string ip;

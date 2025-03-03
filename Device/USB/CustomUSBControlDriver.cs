@@ -1,17 +1,17 @@
 ﻿using MAVF.API;
 using MAVF.API.Device.Driver;
 using MAVF.API.Device.Driver.Routing;
-using MAVF.API.Device.Driver.Video.VideoSwitcher;
+using MAVF.API.Device.Driver.USB;
 using System.Text.Json.Serialization;
 using System.Text.RegularExpressions;
 
-namespace MAVF.Device.Video.VideoSwitcher
+namespace MAVF.Device.USB
 {
-	[Driver("customvideoswitcher")]
-	public class CustomVideoSwitcherController : AbstractCommunicationDriver<CustomVideoSwitcherController.DriverProperties>, IVideoSwitcherControl<InputOutputPort, InputOutputPort>
+	[Driver("customUsb")]
+	public class CustomUSBControlDriver : AbstractCommunicationDriver<CustomUSBControlDriver.DriverProperties>, IUSBControl<InputOutputPort, InputOutputPort>
 	{
 		[JsonConstructor]
-		public CustomVideoSwitcherController(DriverProperties properties) : base(properties)
+		public CustomUSBControlDriver(DriverProperties properties) : base(properties)
 		{
 		}
 
@@ -32,6 +32,8 @@ namespace MAVF.Device.Video.VideoSwitcher
 
 			return false;
 		}
+
+		// Records
 
 		public record DriverProperties : CommunicationDriverProperties
 		{

@@ -2,24 +2,23 @@
 using MAVF.API.Device.Driver.PDU;
 using System.Text.Json.Serialization;
 
-namespace MAVF.Device.USB
+namespace MAVF.Device.PDU
 {
-	[Driver("custompdu")]
-	public class CustomPDUController : AbstractNetworkDriver, IPDUControl
+	[Driver("customPdu")]
+	public class CustomPDUController : AbstractCommunicationDriver<CustomPDUController.DriverProperties>, IPDUControl
 	{
-		[JsonInclude]
-		public readonly string requestTurnOffPower;
+		[JsonConstructor]
+		public CustomPDUController(DriverProperties properties) : base(properties)
+		{
+		}
 
-		[JsonInclude]
-		public readonly string requestTurnOnPower;
-
-		public Dictionary<string, int> Ports { get; init; }
+		public Dictionary<string, int> Ports => Properties.Ports;
 
 		public void TurnPowerOff(int port)
 		{
 			if (Connection.Connect())
 			{
-				Connection.WriteASCII(string.Format(requestTurnOffPower, port));
+				Connection.WriteASCII(string.Format(Properties.RequestTurnOffPower, port));
 			}
 		}
 
@@ -27,8 +26,22 @@ namespace MAVF.Device.USB
 		{
 			if (Connection.Connect())
 			{
-				Connection.WriteASCII(string.Format(requestTurnOnPower, port));
+				Connection.WriteASCII(string.Format(Properties.RequestTurnOnPower, port));
 			}
+		}
+
+		// Records
+
+		public record DriverProperties : CommunicationDriverProperties
+		{
+			[JsonPropertyName("ports")]
+			public required Dictionary<string, int> Ports { get; init; }
+
+			[JsonPropertyName("requestTurnOffPower")]
+			public required string RequestTurnOffPower { get; init; }
+
+			[JsonPropertyName("requestTurnOnPower")]
+			public required string RequestTurnOnPower { get; init; }
 		}
 	}
 }

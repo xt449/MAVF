@@ -6,24 +6,20 @@ using System.Text.RegularExpressions;
 namespace MAVF.Device.TVTuner
 {
 	[Driver("customtvtuner")]
-	public class CustomChannelController : AbstractNetworkDriver, IChannelControl
+	public class CustomChannelController : AbstractCommunicationDriver<CustomChannelController.DriverProperties>, IChannelControl
 	{
-		[JsonInclude]
-		public readonly string requestGetChannel;
-
-		[JsonInclude]
-		public readonly string responseGetChannel;
-
-		[JsonInclude]
-		public readonly string requestSetChannel;
+		[JsonConstructor]
+		public CustomChannelController(DriverProperties properties) : base(properties)
+		{
+		}
 
 		public string? GetChannel()
 		{
 			if (Connection.Connect())
 			{
-				Connection.WriteASCII(requestGetChannel);
+				Connection.WriteASCII(Properties.RequestGetChannel);
 
-				var match = Regex.Match(Connection.ReadASCII(), responseGetChannel);
+				var match = Regex.Match(Connection.ReadASCII(), Properties.ResponseGetChannel);
 				if (match.Success)
 				{
 					return match.Value;
@@ -37,8 +33,20 @@ namespace MAVF.Device.TVTuner
 		{
 			if (Connection.Connect())
 			{
-				Connection.WriteASCII(string.Format(requestSetChannel, channel));
+				Connection.WriteASCII(string.Format(Properties.RequestSetChannel, channel));
 			}
+		}
+
+		public record DriverProperties : CommunicationDriverProperties
+		{
+			[JsonPropertyName("requestGetChannel")]
+			public required string RequestGetChannel { get; init; }
+
+			[JsonPropertyName("responseGetChannel")]
+			public required string ResponseGetChannel { get; init; }
+
+			[JsonPropertyName("requestSetChannel")]
+			public required string RequestSetChannel { get; init; }
 		}
 	}
 }

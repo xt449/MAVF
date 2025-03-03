@@ -2,7 +2,7 @@
 
 namespace MAVF.Device.NVX
 {
-	public class NVXTransmitter : NVXEndpoint
+	public record NVXTransmitter : NVXEndpoint
 	{
 		public async Task<string> GetStreamLocation()
 		{
