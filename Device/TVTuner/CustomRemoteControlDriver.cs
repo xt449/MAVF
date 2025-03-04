@@ -5,10 +5,11 @@ using System.Text.RegularExpressions;
 
 namespace MAVF.Device.TVTuner
 {
-	public class CustomRemoteController : AbstractCommunicationDriver<CustomRemoteController.DriverProperties>, IRemoteControl
+	[Driver("customRemote")]
+	public class CustomRemoteControlDriver : AbstractCommunicationDriver<CustomRemoteControlDriver.DriverProperties>, IRemoteControl
 	{
 		[JsonConstructor]
-		public CustomRemoteController(DriverProperties properties) : base(properties)
+		public CustomRemoteControlDriver(DriverProperties properties) : base(properties)
 		{
 		}
 
