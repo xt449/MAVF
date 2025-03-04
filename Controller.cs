@@ -1,6 +1,5 @@
 ﻿using MAVF.API;
 using MAVF.API.Connection;
-using MAVF.API.Device.Driver;
 using MAVF.Device.Light;
 using System.Text.Json;
 
@@ -101,31 +100,7 @@ namespace MAVF
 		{
 			Console.WriteLine("Creating default config file");
 
-			configuration = new Configuration()
-			{
-				MasterUserId = "172.16.0.11",
-				Users =
-				{
-					["172.16.0.11"] = new UserInterface()
-					{
-						Id = "172.16.0.11",
-						ModeGroups = []
-					}
-				},
-				Modes = ["mode0"],
-				DefaultModeId = "mode0",
-				Devices =
-				{
-					["example"] = new API.Device.Device()
-					{
-						Id = "example",
-						Driver = new TestDriver(new TestDriver.DriverProperties()
-						{
-							Example = 12
-						})
-					}
-				}
-			};
+			configuration = new Configuration();
 		}
 
 		public UserInterface GetMasterUser() => masterUser;
