@@ -6,24 +6,18 @@ using System.Text.Json.Serialization;
 namespace MAVF.Device.NVX
 {
 	[Driver("nvx")]
-	public class NVXController : IDriver, IRouteControl<NVXTransmitter, NVXReceiver>
+	public class NVXController : AbstractCommunicationDriver<NVXController.DriverProperties>, IRouteControl<NVXTransmitter, NVXReceiver>
 	{
-		public string Id { get; init; }
-
-		[JsonConverter(typeof(JArrayDictionaryConverter<NVXTransmitter>))]
-		public Dictionary<string, NVXTransmitter> Inputs { get; init; }
-
-		[JsonConverter(typeof(JArrayDictionaryConverter<NVXReceiver>))]
-		public Dictionary<string, NVXReceiver> Outputs { get; init; }
-
-		Dictionary<NVXReceiver, NVXTransmitter> IRouteControl<NVXTransmitter, NVXReceiver>.Routes { get; } = new Dictionary<NVXReceiver, NVXTransmitter>();
-
-		public object Properties { get; init; }
-
-		public void Initialize()
+		[JsonConstructor]
+		public NVXController(DriverProperties properties) : base(properties)
 		{
-			// Apply possible default routes here?
 		}
+
+		public Dictionary<string, NVXTransmitter> Inputs => Properties.Inputs;
+
+		public Dictionary<string, NVXReceiver> Outputs => Properties.Outputs;
+
+		Dictionary<NVXReceiver, NVXTransmitter> IRouteControl<NVXTransmitter, NVXReceiver>.Routes { get; } = [];
 
 		bool IRouteControl<NVXTransmitter, NVXReceiver>.ExecuteRoute(NVXTransmitter input, NVXReceiver output)
 		{
@@ -34,6 +28,19 @@ namespace MAVF.Device.NVX
 			}
 
 			return endpoint.Route(input).Result;
+		}
+
+		// Records
+
+		public record DriverProperties : CommunicationDriverProperties
+		{
+			[JsonConverter(typeof(JArrayDictionaryConverter<InputOutputPort>))]
+			[JsonPropertyName("inputs")]
+			public required Dictionary<string, NVXTransmitter> Inputs { get; init; }
+
+			[JsonConverter(typeof(JArrayDictionaryConverter<InputOutputPort>))]
+			[JsonPropertyName("outputs")]
+			public required Dictionary<string, NVXReceiver> Outputs { get; init; }
 		}
 	}
 }
