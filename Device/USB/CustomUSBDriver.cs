@@ -8,10 +8,10 @@ using System.Text.RegularExpressions;
 namespace MAVF.Device.USB
 {
 	[Driver("customUsb")]
-	public class CustomUSBControlDriver : AbstractCommunicationDriver<CustomUSBControlDriver.DriverProperties>, IUSBControl<InputOutputPort, InputOutputPort>
+	public class CustomUSBDriver : AbstractCommunicationDriver<CustomUSBDriver.DriverProperties>, IUSBControl<InputOutputPort, InputOutputPort>
 	{
 		[JsonConstructor]
-		public CustomUSBControlDriver(DriverProperties properties) : base(properties)
+		public CustomUSBDriver(DriverProperties properties) : base(properties)
 		{
 		}
 

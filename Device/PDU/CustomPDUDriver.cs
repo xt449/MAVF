@@ -5,10 +5,10 @@ using System.Text.Json.Serialization;
 namespace MAVF.Device.PDU
 {
 	[Driver("customPdu")]
-	public class CustomPDUControlDriver : AbstractCommunicationDriver<CustomPDUControlDriver.DriverProperties>, IPDUControl
+	public class CustomPDUDriver : AbstractCommunicationDriver<CustomPDUDriver.DriverProperties>, IPDUControl
 	{
 		[JsonConstructor]
-		public CustomPDUControlDriver(DriverProperties properties) : base(properties)
+		public CustomPDUDriver(DriverProperties properties) : base(properties)
 		{
 		}
 

@@ -6,10 +6,10 @@ using System.Text.Json.Serialization;
 namespace MAVF.Device.NVX
 {
 	[Driver("nvx")]
-	public class NVXController : AbstractCommunicationDriver<NVXController.DriverProperties>, IRouteControl<NVXTransmitter, NVXReceiver>
+	public class NVXDriver : AbstractCommunicationDriver<NVXDriver.DriverProperties>, IRouteControl<NVXTransmitter, NVXReceiver>
 	{
 		[JsonConstructor]
-		public NVXController(DriverProperties properties) : base(properties)
+		public NVXDriver(DriverProperties properties) : base(properties)
 		{
 		}
 

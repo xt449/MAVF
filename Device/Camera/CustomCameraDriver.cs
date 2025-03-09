@@ -5,10 +5,10 @@ using System.Text.Json.Serialization;
 namespace MAVF.Device.Camera
 {
 	[Driver("customCamera")]
-	public class CustomCameraControlDriver : AbstractCommunicationDriver<CustomCameraControlDriver.DriverProperties>, ICameraControl
+	public class CustomCameraDriver : AbstractCommunicationDriver<CustomCameraDriver.DriverProperties>, ICameraControl
 	{
 		[JsonConstructor]
-		public CustomCameraControlDriver(DriverProperties properties) : base(properties)
+		public CustomCameraDriver(DriverProperties properties) : base(properties)
 		{
 		}
 

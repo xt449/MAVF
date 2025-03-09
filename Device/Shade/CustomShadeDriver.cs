@@ -5,10 +5,10 @@ using System.Text.Json.Serialization;
 namespace MAVF.Device.Shade
 {
 	[Driver("customtshade")]
-	public class CustomShadeControlDriver : AbstractCommunicationDriver<CustomShadeControlDriver.DriverProperties>, IShadeControl
+	public class CustomShadeDriver : AbstractCommunicationDriver<CustomShadeDriver.DriverProperties>, IShadeControl
 	{
 		[JsonConstructor]
-		public CustomShadeControlDriver(DriverProperties properties) : base(properties)
+		public CustomShadeDriver(DriverProperties properties) : base(properties)
 		{
 		}
 

@@ -8,10 +8,10 @@ using System.Text.RegularExpressions;
 namespace MAVF.Device.Video.VideoSwitcher
 {
 	[Driver("customVideoswitcher")]
-	public class CustomVideoSwitcherControlDriver : AbstractCommunicationDriver<CustomVideoSwitcherControlDriver.DriverProperties>, IVideoSwitcherControl<InputOutputPort, InputOutputPort>
+	public class CustomVideoSwitcherDriver : AbstractCommunicationDriver<CustomVideoSwitcherDriver.DriverProperties>, IVideoSwitcherControl<InputOutputPort, InputOutputPort>
 	{
 		[JsonConstructor]
-		public CustomVideoSwitcherControlDriver(DriverProperties properties) : base(properties)
+		public CustomVideoSwitcherDriver(DriverProperties properties) : base(properties)
 		{
 		}
 

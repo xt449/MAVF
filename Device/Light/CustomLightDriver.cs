@@ -5,10 +5,10 @@ using System.Text.Json.Serialization;
 namespace MAVF.Device.Light
 {
 	[Driver("customLight")]
-	public class CustomLightControlDriver : AbstractCommunicationDriver<CustomLightControlDriver.DriverProperties>, ILightControl
+	public class CustomLightDriver : AbstractCommunicationDriver<CustomLightDriver.DriverProperties>, ILightControl
 	{
 		[JsonConstructor]
-		public CustomLightControlDriver(DriverProperties properties) : base(properties)
+		public CustomLightDriver(DriverProperties properties) : base(properties)
 		{
 		}
 
