@@ -1,16 +1,16 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using System.Text.Json;
 
 namespace MAVF.Device.NVX
 {
-	public class NVXTransmitter : NVXEndpoint
+	public record NVXTransmitter : NVXEndpoint
 	{
 		public async Task<string> GetStreamLocation()
 		{
-			var response = await client.GetAsync($"/Device/StreamTransmit/Streams/{port - 1}/StreamLocation");
+			var response = await client.GetAsync($"/Device/StreamTransmit/Streams/{Port - 1}/StreamLocation");
 			var body = await response.Content.ReadAsStringAsync();
-			var json = JToken.Parse(body);
+			var json = JsonDocument.Parse(body).RootElement;
 
-			return (string?)json["Device"]?["StreamTransmit"]?["Streams"]?[port - 1]?["StreamLocation"] ?? throw new Exception($"NVXEndpoint failed to get stream location address @ {client.BaseAddress}");
+			return json.GetProperty("Device").GetProperty("StreamTransmit").GetProperty("Streams")[Port - 1].GetProperty("StreamLocation").GetString() ?? throw new Exception($"NVXEndpoint failed to get stream location address @ {client.BaseAddress}");
 		}
 	}
 }

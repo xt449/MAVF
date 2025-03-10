@@ -1,19 +1,19 @@
-﻿using MAVF.API.Device.Routing;
-using Newtonsoft.Json;
+﻿using MAVF.API.Device.Driver.Routing;
 using System.Net;
 using System.Text;
+using System.Text.Json.Serialization;
 
 namespace MAVF.Device.NVX
 {
-	public abstract class NVXEndpoint : InputOutputPort
+	public abstract record NVXEndpoint : InputOutputPort
 	{
-		[JsonProperty(Required = Required.Always)]
+		[JsonInclude]
 		public readonly string ip;
 
-		[JsonProperty(Required = Required.Always)]
+		[JsonInclude]
 		public readonly string username;
 
-		[JsonProperty(Required = Required.Always)]
+		[JsonInclude]
 		public readonly string password;
 
 		protected readonly HttpClient client;

@@ -1,12 +1,11 @@
-﻿using Microsoft.AspNetCore.Http.Features;
-using Microsoft.AspNetCore.SignalR;
-using MAVF.API;
-using MAVF.API.Device;
-using MAVF.API.Device.PDU;
-using MAVF.API.Device.Routing;
-using MAVF.API.Device.TVTuner;
-using MAVF.API.Device.Video;
+﻿using MAVF.API;
+using MAVF.API.Device.Driver.PDU;
+using MAVF.API.Device.Driver.Routing;
+using MAVF.API.Device.Driver.TVTuner;
+using MAVF.API.Device.Driver.Video;
 using MAVF.API.Layout;
+using Microsoft.AspNetCore.Http.Features;
+using Microsoft.AspNetCore.SignalR;
 
 namespace MAVF
 {
@@ -21,14 +20,14 @@ namespace MAVF
 
 		// Devices
 
-		public IEnumerable<IDevice> GetDevices()
+		public IEnumerable<API.Device.Device> GetDevices()
 		{
 			return controller.GetDevices().Values;
 		}
 
 		// Device
 
-		public IDevice? GetDeviceById(string deviceId)
+		public API.Device.Device? GetDeviceById(string deviceId)
 		{
 			return controller.GetDeviceById(deviceId);
 		}
@@ -57,7 +56,7 @@ namespace MAVF
 
 		public IEnumerable<IInputOutput>? GetDeviceInputsById(string deviceId)
 		{
-			if (controller.GetDeviceById(deviceId) is IRouteControl<IInputOutput, IInputOutput> device)
+			if (controller.GetDeviceById(deviceId)?.Driver is IRouteControl<IInputOutput, IInputOutput> device)
 			{
 				return device.Inputs.Values;
 			}
@@ -67,7 +66,7 @@ namespace MAVF
 
 		public IEnumerable<IInputOutput>? GetDeviceOutputsById(string deviceId)
 		{
-			if (controller.GetDeviceById(deviceId) is IRouteControl<IInputOutput, IInputOutput> device)
+			if (controller.GetDeviceById(deviceId)?.Driver is IRouteControl<IInputOutput, IInputOutput> device)
 			{
 				return device.Outputs.Values;
 			}
@@ -84,7 +83,7 @@ namespace MAVF
 				return false;
 			}
 
-			if (controller.GetDeviceById(deviceId) is IRouteControl<IInputOutput, IInputOutput> device)
+			if (controller.GetDeviceById(deviceId)?.Driver is IRouteControl<IInputOutput, IInputOutput> device)
 			{
 				return device.Route(input, output);
 			}
@@ -94,7 +93,7 @@ namespace MAVF
 
 		public IInputOutput? GetRoute(string deviceId, IInputOutput output)
 		{
-			if (controller.GetDeviceById(deviceId) is IRouteControl<IInputOutput, IInputOutput> device)
+			if (controller.GetDeviceById(deviceId)?.Driver is IRouteControl<IInputOutput, IInputOutput> device)
 			{
 				return device.GetRoute(output);
 			}
@@ -106,7 +105,7 @@ namespace MAVF
 
 		public bool TrySetLayout(string deviceId, ILayout layout)
 		{
-			if (controller.GetDeviceById(deviceId) is ILayoutControl device)
+			if (controller.GetDeviceById(deviceId)?.Driver is ILayoutControl device)
 			{
 				device.SetLayout(layout);
 				return true;
@@ -117,7 +116,7 @@ namespace MAVF
 
 		public ILayout? GetLayout(string deviceId)
 		{
-			if (controller.GetDeviceById(deviceId) is ILayoutControl device)
+			if (controller.GetDeviceById(deviceId)?.Driver is ILayoutControl device)
 			{
 				return device.GetLayout();
 			}
@@ -129,7 +128,7 @@ namespace MAVF
 
 		public bool TrySetChannel(string deviceId, string channel)
 		{
-			if (controller.GetDeviceById(deviceId) is IChannelControl device)
+			if (controller.GetDeviceById(deviceId)?.Driver is IChannelControl device)
 			{
 				device.SetChannel(channel);
 				return true;
@@ -140,7 +139,7 @@ namespace MAVF
 
 		public string? GetChannel(string deviceId)
 		{
-			if (controller.GetDeviceById(deviceId) is IChannelControl device)
+			if (controller.GetDeviceById(deviceId)?.Driver is IChannelControl device)
 			{
 				return device.GetChannel();
 			}
@@ -152,7 +151,7 @@ namespace MAVF
 
 		public bool TryTurnPowerOn(string deviceId, int port)
 		{
-			if (controller.GetDeviceById(deviceId) is IPDUControl device)
+			if (controller.GetDeviceById(deviceId)?.Driver is IPDUControl device)
 			{
 				device.TurnPowerOn(port);
 				return true;
@@ -163,7 +162,7 @@ namespace MAVF
 
 		public bool TryTurnPowerOff(string deviceId, int port)
 		{
-			if (controller.GetDeviceById(deviceId) is IPDUControl device)
+			if (controller.GetDeviceById(deviceId)?.Driver is IPDUControl device)
 			{
 				device.TurnPowerOff(port);
 				return true;
